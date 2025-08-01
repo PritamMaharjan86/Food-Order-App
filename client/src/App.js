@@ -5,7 +5,9 @@ import axios from 'axios';
 function App() {
 
   const [menu, setMenu] = useState([]);
-  const [orderData, setOrderData] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [item, setItem] = useState([]);
 
 
   useEffect(() => {
@@ -14,8 +16,21 @@ function App() {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleSubmit = () => {
-    alert('Order Placed!');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const orderData = { name, phone, item, };
+
+    try {
+      const response = await axios.post('http://localhost:3001/api/order', orderData);
+      alert(response.data.message);
+    }
+    catch (error) {
+      console.error('Error sending order:', error);
+      alert('Order failed to place!')
+    }
+
+
   }
 
 
@@ -35,17 +50,24 @@ function App() {
       <form onSubmit={handleSubmit}>
 
         <div className='flex flex-col w-48 m-3 gap-2 '>
-          <input className='p-1 rounded-md m-1' type='text' placeholder='Name' />
-          <input className='p-1 rounded-md m-1' type='text' placeholder='Phone' />
+          <input className='p-1 rounded-md m-1' type='text' placeholder='Name' onChange={(e) => setName(e.target.value)} />
+          <input className='p-1 rounded-md m-1' type='text' placeholder='Phone' onChange={(e) => setPhone(e.target.value)} />
         </div>
 
         <div className='text-white flex flex-col gap-1 w-1/4 justify-center m-3'>
-          <label className='items-center flex gap-2'>
-            <input type='radio' placeholder='Burger' /> Burger
-            <input type='radio' placeholder='Pizza' /> Pizza
-            <input type='radio' placeholder='Fries' /> Fries
-          </label>
+          {['Burger', 'Pizza', 'Fries', 'Momo','Noodles','Fried Rice'].map((food) => (
+            <label key={food} className='items-center flex gap-2'>
+              <input
+                type='radio'
+                name='item'
+                value={food}
+                onChange={(e) => setItem(e.target.value)}
+              /> {food}
+            </label>
+          ))}
         </div>
+
+
 
         <button className='text-black border border-green-200 m-3 p-1 rounded-lg bg-green-600' type='submit'>Place Order</button>
       </form>
