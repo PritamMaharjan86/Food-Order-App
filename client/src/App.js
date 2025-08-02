@@ -8,6 +8,7 @@ function App() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [item, setItem] = useState([]);
+  const [order, setOrder] = useState([]);
 
 
   useEffect(() => {
@@ -16,13 +17,19 @@ function App() {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    axios.get('http://localhost:3001/api/order/getOrder')
+      .then(res => setOrder(res.data))
+      .catch(err => console.error(err));
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const orderData = { name, phone, item, };
 
     try {
-      const response = await axios.post('http://localhost:3001/api/order', orderData);
+      const response = await axios.post('http://localhost:3001/api/order/postOrder', orderData);
       alert(response.data.message);
     }
     catch (error) {
@@ -55,7 +62,7 @@ function App() {
         </div>
 
         <div className='text-white flex flex-col gap-1 w-1/4 justify-center m-3'>
-          {['Burger', 'Pizza', 'Fries', 'Momo','Noodles','Fried Rice'].map((food) => (
+          {['Burger', 'Pizza', 'Fries', 'Momo', 'Noodles', 'Fried Rice'].map((food) => (
             <label key={food} className='items-center flex gap-2'>
               <input
                 type='radio'
@@ -71,6 +78,18 @@ function App() {
 
         <button className='text-black border border-green-200 m-3 p-1 rounded-lg bg-green-600' type='submit'>Place Order</button>
       </form>
+
+      <div className='bg-white'>
+
+        {order.map(order => (
+          <div key={order._id} className='border-b py-2'>
+            <p><strong>Name:</strong> {order.name}</p>
+            <p><strong>Phone:</strong> {order.phone}</p>
+            <p><strong>Item:</strong> {order.item}</p>
+          </div>
+        ))}
+
+      </div>
     </div>
 
   );

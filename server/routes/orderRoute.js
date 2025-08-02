@@ -1,9 +1,8 @@
 const router = require('express').Router();
-
-
 const order = require('../models/order');
 
-router.post('/', async (req, res) => {
+//to send order to the database from the user
+router.post('/postOrder', async (req, res) => {
 
     try {
         const { name, phone, item } = req.body;
@@ -19,5 +18,20 @@ router.post('/', async (req, res) => {
 
     }
 });
+
+//to get the list of order from database
+router.get('/getOrder', async (req, res) => {
+
+    try {
+        const orders = await order.find().sort({ createdAt: -1 }); //-1 is for latest at the first
+        res.json(orders);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error fetching orders' });
+    }
+});
+
+
 
 module.exports = router;

@@ -3,10 +3,12 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-require('dotenv').config();
-require('./models/database');
 app.use(cors());
 app.use(express.json());
+
+
+require('dotenv').config();
+require('./models/database');
 
 
 const menuRouter = require('./routes/menuRoute');
