@@ -32,6 +32,27 @@ router.get('/getOrder', async (req, res) => {
     }
 });
 
+//to delete the order list
+router.delete('/deleteOrder/:orderId', async (req, res) => {
+
+    const orderId = req.params.orderId;
+
+    try {
+        const deleteOrder = await order.findByIdAndDelete(orderId);
+        if(!deleteOrder)
+        {
+            return res.status(404).json({message:'Order not found.'})
+        }
+        res.json({message:'Order deleted.'});
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Cannot delete the order' });
+
+    }
+
+})
+
 
 
 module.exports = router;
