@@ -1,30 +1,24 @@
-import { useState } from "react";
+import { useState} from "react";
 import axios from 'axios';
-import Loader from "../components/Loader";
 
 const Order = () => {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [item, setItem] = useState([]);
-    const [loading, setLoading] = useState(false);
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
 
         const orderData = { name, phone, item, };
 
         try {
             const response = await axios.post('http://localhost:3001/api/order/postOrder', orderData);
             alert(response.data.message);
-            setLoading(false);
-
         }
         catch (error) {
             console.error('Error sending order:', error);
             alert('Order failed to place!')
-            setLoading(false);
         }
 
 
@@ -33,7 +27,6 @@ const Order = () => {
 
     return (
         <div>
-            {loading ? <Loader /> : <p></p>}
             <form onSubmit={handleSubmit}>
 
                 <div className='flex flex-col w-48 m-3 gap-2 '>

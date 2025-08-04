@@ -35,7 +35,7 @@ router.get('/getOrder', async (req, res) => {
 //to delete the order list
 router.delete('/deleteOrder/:orderId', async (req, res) => {
 
-    const orderId = req.params.orderId;
+    const orderId = req.params.id;
 
     try {
         const deleteOrder = await order.findByIdAndDelete(orderId);
