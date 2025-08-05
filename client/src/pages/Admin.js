@@ -27,16 +27,34 @@ const Admin = () => {
             alert("Failed to delete order");
         }
     };
+
+
+    const handleDelivered = async (orderId) => {
+        try {
+            await axios.patch(`http://localhost:3001/api/order/updateStatus/${orderId}`, {
+                status: 'Delivered'
+            });
+            console.log('Order updated');
+        } catch (error) {
+            console.error('Error updating order:', error);
+        }
+    };
+
+
     return (
         <div>
             <div className='bg-white'>
 
                 {order.map(order => (
                     <div key={order._id} className='border-b py-2 m-2'>
+                        <p><strong>Status:</strong> {order.status}</p>
                         <p><strong>Name:</strong> {order.name}</p>
                         <p><strong>Phone:</strong> {order.phone}</p>
                         <p><strong>Item:</strong> {order.item}</p>
-                        <button onClick={()=>handleDelete(order._id)} className="p-1 rounded-md bg-red-600 text-white shadow-xl m-1 border ">Delete</button>
+                        <button onClick={() => handleDelete(order._id)} className="p-1 rounded-md bg-red-600 text-white shadow-xl m-1 border ">Delete</button>
+                        {order.status === 'Pending' && (
+                            <button className="bg-green-600 border rounded-md p-1 text-white" onClick={() => handleDelivered(order._id)} >Mark as Delivered</button>
+                        )}
                     </div>
                 ))}
 

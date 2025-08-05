@@ -28,6 +28,12 @@ const OrderSchema = new mongoose.Schema({
 
     },
 
+    status:
+    {
+        type: String,
+        default: "Pending",
+    },
+
 
 });
 

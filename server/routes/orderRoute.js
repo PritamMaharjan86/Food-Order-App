@@ -35,15 +35,14 @@ router.get('/getOrder', async (req, res) => {
 //to delete the order list
 router.delete('/deleteOrder/:orderId', async (req, res) => {
 
-    const orderId = req.params.id;
+    const orderId = req.params.orderId;
 
     try {
         const deleteOrder = await order.findByIdAndDelete(orderId);
-        if(!deleteOrder)
-        {
-            return res.status(404).json({message:'Order not found.'})
+        if (!deleteOrder) {
+            return res.status(404).json({ message: 'Order not found.' })
         }
-        res.json({message:'Order deleted.'});
+        res.json({ message: 'Order deleted.' });
 
     } catch (err) {
         console.error(err);
@@ -51,7 +50,31 @@ router.delete('/deleteOrder/:orderId', async (req, res) => {
 
     }
 
-})
+});
+
+
+//to update the status of delivery
+router.patch('/updateStatus/:orderId', async (req, res) => {
+    const { orderId } = req.params;
+    const { status } = req.body;
+
+    try {
+        const updatedOrder = await order.findByIdAndUpdate(
+            orderId,
+            { status: status },
+            { new: true }
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        res.json({ message: 'Order status updated successfully', order: updatedOrder });
+    } catch (error) {
+        console.error('Error updating order status:', error);
+        res.status(500).json({ message: 'Failed to update order status' });
+    }
+});
 
 
 
