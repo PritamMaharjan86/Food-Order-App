@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 import axios from 'axios';
 import Loader from "../components/Loader";
 
@@ -19,7 +19,7 @@ const Order = () => {
             const response = await axios.post('http://localhost:3001/api/order/postOrder', orderData);
             setLoading(false);
             alert(response.data.message);
-            
+
         }
         catch (error) {
             console.error('Error sending order:', error);
@@ -30,10 +30,22 @@ const Order = () => {
 
     }
 
+    const handleItemChange = (e) => {
+
+        const value = e.target.value;
+        const checked = e.target.checked;
+
+        if (checked) {
+            setItem(prev => [...prev, value]);
+        } else {
+            setItem(prev => prev.filter(item => item !== value));
+        }
+    }
+
 
     return (
         <div>
-            {loading ? <Loader/> : <p></p>} //ternary operator
+            {loading ? <Loader /> : <p></p>} //ternary operator
             <form onSubmit={handleSubmit}>
 
                 <div className='flex flex-col w-48 m-3 gap-2 '>
@@ -48,7 +60,8 @@ const Order = () => {
                                 type='checkbox'
                                 name='item'
                                 value={food}
-                                onChange={(e) => setItem(e.target.value)}
+                                onChange={handleItemChange}
+
                             /> {food}
                         </label>
                     ))}
