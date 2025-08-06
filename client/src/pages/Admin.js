@@ -35,6 +35,7 @@ const Admin = () => {
                 status: 'Delivered'
             });
             console.log('Order updated');
+            window.location.reload();
         } catch (error) {
             console.error('Error updating order:', error);
         }

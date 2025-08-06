@@ -34,6 +34,12 @@ const OrderSchema = new mongoose.Schema({
         default: "Pending",
     },
 
+    quantity:
+    {
+        type: Number,
+
+    },
+
 
 });
 

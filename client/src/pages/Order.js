@@ -45,7 +45,7 @@ const Order = () => {
                     {['Burger', 'Pizza', 'Fries', 'Momo', 'Noodles', 'Fried Rice'].map((food) => (
                         <label key={food} className='items-center flex gap-2'>
                             <input
-                                type='radio'
+                                type='checkbox'
                                 name='item'
                                 value={food}
                                 onChange={(e) => setItem(e.target.value)}
