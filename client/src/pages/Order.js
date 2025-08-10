@@ -1,12 +1,15 @@
 import { useState } from "react";
 import axios from 'axios';
 import Loader from "../components/Loader";
+import { IoIosLock, IoIosUnlock } from "react-icons/io";
+
 
 const Order = () => {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [item, setItem] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [info, setInfo] = useState(false);
 
 
     const handleSubmit = async (e) => {
@@ -37,6 +40,7 @@ const Order = () => {
 
         if (checked) {
             setItem(prev => [...prev, value]);
+            setInfo(true);
         } else {
             setItem(prev => prev.filter(item => item !== value));
         }
@@ -69,7 +73,7 @@ const Order = () => {
 
 
 
-                <button className='text-black border border-green-200 m-3 p-1 rounded-lg bg-green-600' type='submit'>Place Order</button>
+                <button className={`text-white border m-3 p-2 rounded-lg bg-green-600 w-fit flex flex-row justify-center items-center gap-2 ${info ? '' : 'bg-black filter brightness-50'}`} type='submit'>Place Order {info  ? <IoIosUnlock /> : <IoIosLock />} </button>
             </form>
 
         </div>
