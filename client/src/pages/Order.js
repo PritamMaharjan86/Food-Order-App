@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import Loader from "../components/Loader";
-import { IoIosLock, IoIosUnlock } from "react-icons/io";
+import { IoIosLock } from "react-icons/io";
 
 
 const Order = () => {
@@ -14,20 +14,26 @@ const Order = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
 
-        const orderData = { name, phone, item, };
 
-        try {
-            const response = await axios.post('http://localhost:3001/api/order/postOrder', orderData);
-            setLoading(false);
-            alert(response.data.message);
+        if (info) {
+            setLoading(true);
+            const orderData = { name, phone, item };
 
+            try {
+                const response = await axios.post('http://localhost:3001/api/order/postOrder', orderData);
+                setLoading(false);
+                alert(response.data.message);
+
+            }
+            catch (error) {
+                console.error('Error sending order:', error);
+                setLoading(false);
+                alert('Order failed to place!')
+            }
         }
-        catch (error) {
-            console.error('Error sending order:', error);
-            setLoading(false);
-            alert('Order failed to place!')
+        else {
+            alert('please fill out all the fields');
         }
 
 
@@ -46,11 +52,11 @@ const Order = () => {
         }
     }
 
-
     return (
         <div>
             {loading ? <Loader /> : <p></p>} //ternary operator
             <form onSubmit={handleSubmit}>
+
 
                 <div className='flex flex-col w-48 m-3 gap-2 '>
                     <input className='p-1 rounded-md m-1' type='text' placeholder='Name' onChange={(e) => setName(e.target.value)} />
@@ -73,7 +79,7 @@ const Order = () => {
 
 
 
-                <button className={`text-white border m-3 p-2 rounded-lg bg-green-600 w-fit flex flex-row justify-center items-center gap-2 ${info ? '' : 'bg-black filter brightness-50'}`} type='submit'>Place Order {info  ? <IoIosUnlock /> : <IoIosLock />} </button>
+                <button className={`text-white border m-3 p-2 rounded-lg bg-green-600 w-fit flex flex-row justify-center items-center gap-2 ${info ? '' : 'bg-black filter brightness-50'}`} type='submit'>Place Order {info ? ' ' : <IoIosLock />} </button>
             </form>
 
         </div>
