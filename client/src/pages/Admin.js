@@ -51,7 +51,9 @@ const Admin = () => {
                         <p><strong>Status:</strong> {order.status}</p>
                         <p><strong>Name:</strong> {order.name}</p>
                         <p><strong>Phone:</strong> {order.phone}</p>
-                        <p><strong>Item:</strong> {order.item.join(", ") }</p>
+                        <p><strong>Item:</strong> {order.item.join(", ")}</p>
+                        <p><strong>Order Time:</strong> {new Date(order.createdAt).toLocaleTimeString()}</p>
+                        <p><strong>Order Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
                         <button onClick={() => handleDelete(order._id)} className="p-1 rounded-md bg-red-600 text-white shadow-xl m-1 border ">Delete</button>
                         {order.status === 'Pending' && (
                             <button className="bg-green-600 border rounded-md p-1 text-white" onClick={() => handleDelivered(order._id)} >Mark as Delivered</button>
