@@ -16,8 +16,19 @@ const OrderSchema = new mongoose.Schema({
 
     item:
     {
-        type: [String],
-        required: true,
+        type: [{
+            name:
+            {
+                type: String,
+                required: true,
+            },
+
+            quantity:
+            {
+                type: Number,
+                required: true,
+            },
+        }],
 
     },
 
@@ -34,11 +45,6 @@ const OrderSchema = new mongoose.Schema({
         default: "Pending",
     },
 
-    quantity:
-    {
-        type: Number,
-
-    },
 
 });
 

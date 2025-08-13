@@ -44,6 +44,8 @@ const Admin = () => {
 
     return (
         <div>
+
+            {order.length > 0 ? (
             <div className='bg-white'>
 
                 {order.map(order => (
@@ -51,7 +53,13 @@ const Admin = () => {
                         <p><strong>Status:</strong> {order.status}</p>
                         <p><strong>Name:</strong> {order.name}</p>
                         <p><strong>Phone:</strong> {order.phone}</p>
-                        <p><strong>Item:</strong> {order.item.join(", ")}</p>
+                        <p><strong>Item:</strong> <ul>
+                            {order.item.map((order, index) => (
+                                <li key={index}>
+                                    {order.name} — Quantity: {order.quantity}
+                                </li>
+                            ))}
+                        </ul></p>
                         <p><strong>Order Time:</strong> {new Date(order.createdAt).toLocaleTimeString()}</p>
                         <p><strong>Order Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
                         <button onClick={() => handleDelete(order._id)} className="p-1 rounded-md bg-red-600 text-white shadow-xl m-1 border ">Delete</button>
@@ -61,7 +69,9 @@ const Admin = () => {
                     </div>
                 ))}
 
-            </div>
+            </div>) : (<div>
+                <p className="text-white font-bold text-5xl items-center justify-center flex">No Orders left.</p></div>)}
+
 
         </div>
     )
