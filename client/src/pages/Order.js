@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "../components/Loader";
 
@@ -7,28 +7,14 @@ const Order = () => {
     const [phone, setPhone] = useState("");
     const [items, setItems] = useState([]); // [{name, quantity}]
     const [loading, setLoading] = useState(false);
+    const [menu, setMenu] = useState([]);
 
-    const foodOptions = ["Burger", "Pizza", "Fries", "Momo", "Noodles", "Fried Rice"];
 
-    // Handle checkbox select/unselect
-    const handleCheckboxChange = (food) => {
-        if (items.some((item) => item.name === food)) {
-            // Remove item if unchecked
-            setItems(items.filter((item) => item.name !== food));
-        } else {
-            // Add item with default quantity 1
-            setItems([...items, { name: food, quantity: 1 }]);
-        }
-    };
-
-    // Handle quantity change
-    const handleQuantityChange = (food, quantity) => {
-        setItems(
-            items.map((item) =>
-                item.name === food ? { ...item, quantity: parseInt(quantity) || 1 } : item
-            )
-        );
-    };
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/menu')
+            .then((res) => setMenu(res.data))
+            .catch((err) => console.error(err));
+    }, []);
 
     // Handle form submit
     const handleSubmit = async (e) => {
@@ -51,8 +37,10 @@ const Order = () => {
         }
     };
 
+
+
     return (
-        <div>
+        <div className="bg-black h-full">
             {loading && <Loader />}
             <form onSubmit={handleSubmit}>
                 <div className="flex flex-col w-48 m-3 gap-2">
@@ -74,32 +62,27 @@ const Order = () => {
                     />
                 </div>
 
-                <div className="text-white flex flex-col gap-1 w-1/4 justify-center m-3">
-                    {foodOptions.map((food) => {
-                        const selected = items.some((item) => item.name === food);
-                        const quantity =
-                            items.find((item) => item.name === food)?.quantity || 1;
+                 <div className='bg-white'>
 
-                        return (
-                            <label key={food} className="items-center flex gap-2">
-                                <input
-                                    type="checkbox"
-                                    checked={selected}
-                                    onChange={() => handleCheckboxChange(food)}
-                                />
-                                {food}
-                                <input
-                                    type="number"
-                                    min="1"
-                                    value={quantity}
-                                    disabled={!selected}
-                                    onChange={(e) => handleQuantityChange(food, e.target.value)}
-                                    className="w-16 p-1 rounded-md text-black"
-                                />
-                            </label>
-                        );
-                    })}
-                </div>
+                {menu.map(order => (
+                    <div key={order._id} className='border-b py-2 m-2'>
+                        <p><strong>Status:</strong> {order.status}</p>
+                        <p><strong>Name:</strong> {order.name}</p>
+                        <p><strong>Phone:</strong> {order.phone}</p>
+                        <p><strong>Item:</strong> <ul>
+                            {menu.item.map((order, index) => (
+                                <li key={index}>
+                                    {order.name} — Quantity: {order.quantity}
+                                </li>
+                            ))}
+                        </ul></p>
+                        <p><strong>Order Time:</strong> {new Date(order.createdAt).toLocaleTimeString()}</p>
+                        <p><strong>Order Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
+                       
+                    </div>
+                ))}
+
+            </div>
 
                 <button
                     className="text-black border border-green-200 m-3 p-1 rounded-lg bg-green-600"
@@ -108,6 +91,10 @@ const Order = () => {
                     Place Order
                 </button>
             </form>
+
+
+
+
         </div>
     );
 };
