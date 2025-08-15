@@ -5,44 +5,71 @@ import Loader from "../components/Loader";
 const Order = () => {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-    const [items, setItems] = useState([]); // [{name, quantity}]
+    const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(false);
     const [menu, setMenu] = useState([]);
 
-
     useEffect(() => {
-        axios.get('http://localhost:3001/api/menu')
+        axios
+            .get("http://localhost:3001/api/menu")
             .then((res) => setMenu(res.data))
             .catch((err) => console.error(err));
     }, []);
 
-    // Handle form submit
+    const getId = (food) => food._id || food.id; // Support both formats
+
+    const handleCheckboxChange = (food) => {
+        const id = getId(food);
+        if (items.some((item) => item.id === id)) {
+            // Remove if unchecked
+            setItems(items.filter((item) => item.id !== id));
+        } else {
+            // Add if checked
+            setItems([
+                ...items,
+                { id, name: food.name, price: food.price, quantity: 1 },
+            ]);
+        }
+    };
+
+    const handleQuantityChange = (foodId, quantity) => {
+        setItems((prev) =>
+            prev.map((item) =>
+                item.id === foodId
+                    ? { ...item, quantity: parseInt(quantity) || 1 }
+                    : item
+            )
+        );
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        const orderData = { name, phone, item: items };
+        const orderData = { name, phone, items };
 
         try {
-            const res = await axios.post("http://localhost:3001/api/order/postOrder", orderData);
+            const res = await axios.post(
+                "http://localhost:3001/api/order/postOrder",
+                orderData
+            );
             alert(res.data.message);
-            setLoading(false);
             setName("");
             setPhone("");
             setItems([]);
         } catch (err) {
             console.error("Error placing order:", err);
             alert("Failed to place order");
+        } finally {
             setLoading(false);
         }
     };
 
-
-
     return (
-        <div className="bg-black h-full">
+        <div>
             {loading && <Loader />}
             <form onSubmit={handleSubmit}>
+                {/* Name & Phone */}
                 <div className="flex flex-col w-48 m-3 gap-2">
                     <input
                         className="p-1 rounded-md m-1"
@@ -62,28 +89,36 @@ const Order = () => {
                     />
                 </div>
 
-                 <div className='bg-white'>
+                {/* Menu Items */}
+                <div className="text-white flex flex-col gap-1 w-1/4 justify-center m-3">
+                    {menu.map((food) => {
+                        const id = getId(food);
+                        const selected = items.some((item) => item.id === id);
+                        const quantity =
+                            items.find((item) => item.id === id)?.quantity || 1;
 
-                {menu.map(order => (
-                    <div key={order._id} className='border-b py-2 m-2'>
-                        <p><strong>Status:</strong> {order.status}</p>
-                        <p><strong>Name:</strong> {order.name}</p>
-                        <p><strong>Phone:</strong> {order.phone}</p>
-                        <p><strong>Item:</strong> <ul>
-                            {menu.item.map((order, index) => (
-                                <li key={index}>
-                                    {order.name} — Quantity: {order.quantity}
-                                </li>
-                            ))}
-                        </ul></p>
-                        <p><strong>Order Time:</strong> {new Date(order.createdAt).toLocaleTimeString()}</p>
-                        <p><strong>Order Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
-                       
-                    </div>
-                ))}
+                        return (
+                            <label key={id} className="items-center flex gap-2">
+                                <input
+                                    type="checkbox"
+                                    checked={selected}
+                                    onChange={() => handleCheckboxChange(food)}
+                                />
+                                {food.name} - ${food.price}
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={quantity}
+                                    disabled={!selected}
+                                    onChange={(e) => handleQuantityChange(id, e.target.value)}
+                                    className="w-16 p-1 rounded-md text-black"
+                                />
+                            </label>
+                        );
+                    })}
+                </div>
 
-            </div>
-
+                {/* Submit */}
                 <button
                     className="text-black border border-green-200 m-3 p-1 rounded-lg bg-green-600"
                     type="submit"
@@ -91,10 +126,6 @@ const Order = () => {
                     Place Order
                 </button>
             </form>
-
-
-
-
         </div>
     );
 };
