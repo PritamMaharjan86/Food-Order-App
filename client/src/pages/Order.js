@@ -46,7 +46,7 @@ const Order = () => {
         e.preventDefault();
         setLoading(true);
 
-        const orderData = { name, phone, items };
+        const orderData = { name, phone, items: menu };
 
         try {
             const res = await axios.post(
@@ -92,13 +92,12 @@ const Order = () => {
                 {/* Menu Items */}
                 <div className="text-white flex flex-col gap-1 w-1/4 justify-center m-3">
                     {menu.map((food) => {
-                        const id = getId(food);
-                        const selected = items.some((item) => item.id === id);
+                        const selected = items.some((item) => item.name === food);
                         const quantity =
-                            items.find((item) => item.id === id)?.quantity || 1;
+                            items.find((item) => item.name === food)?.quantity || 1;
 
                         return (
-                            <label key={id} className="items-center flex gap-2">
+                            <label key={food} className="items-center flex gap-2">
                                 <input
                                     type="checkbox"
                                     checked={selected}
@@ -110,7 +109,7 @@ const Order = () => {
                                     min="1"
                                     value={quantity}
                                     disabled={!selected}
-                                    onChange={(e) => handleQuantityChange(id, e.target.value)}
+                                    onChange={(e) => handleQuantityChange(food, e.target.value)}
                                     className="w-16 p-1 rounded-md text-black"
                                 />
                             </label>
