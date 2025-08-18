@@ -3,21 +3,25 @@ const order = require('../models/order');
 
 //to send order to the database from the user
 router.post('/postOrder', async (req, res) => {
-
     try {
-        const { name, phone, item, quantity, price } = req.body;
+        const { name, phone, items } = req.body;
 
-        const newOrder = new order({ name, phone, item, quantity, price });
+        if (!items || items.length === 0) {
+            return res.status(400).json({ message: 'No items in order' });
+        }
+
+        const newOrder = new order({ name, phone, items });
         await newOrder.save();
-        console.log('Recieved Order:', newOrder);
-        res.status(201).json({ message: 'Order recieved successfully!' });
+
+        console.log('Received Order:', newOrder);
+        res.status(201).json({ message: 'Order received successfully!', order: newOrder });
 
     } catch (error) {
         console.error('Error saving order to database:', error);
         res.status(500).json({ message: 'Failed to place order' });
-
     }
 });
+
 
 //to get the list of order from database
 router.get('/getOrder', async (req, res) => {

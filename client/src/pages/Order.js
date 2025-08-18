@@ -16,8 +16,9 @@ const Order = () => {
             .catch((err) => console.error(err));
     }, []);
 
-    const getId = (food) => food._id || food.id; // Support both formats
+    const getId = (food) => food._id || food.id; // Support both _id and id
 
+    // Toggle checkbox
     const handleCheckboxChange = (food) => {
         const id = getId(food);
         if (items.some((item) => item.id === id)) {
@@ -32,6 +33,7 @@ const Order = () => {
         }
     };
 
+    // Update quantity
     const handleQuantityChange = (foodId, quantity) => {
         setItems((prev) =>
             prev.map((item) =>
@@ -42,11 +44,12 @@ const Order = () => {
         );
     };
 
+    // Submit order
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
-        const orderData = { name, phone, items: menu };
+        const orderData = { name, phone, items }; // ✅ send selected items, not menu
 
         try {
             const res = await axios.post(
@@ -92,12 +95,13 @@ const Order = () => {
                 {/* Menu Items */}
                 <div className="text-white flex flex-col gap-1 w-1/4 justify-center m-3">
                     {menu.map((food) => {
-                        const selected = items.some((item) => item.name === food);
+                        const id = getId(food);
+                        const selected = items.some((item) => item.id === id);
                         const quantity =
-                            items.find((item) => item.name === food)?.quantity || 1;
+                            items.find((item) => item.id === id)?.quantity || 1;
 
                         return (
-                            <label key={food} className="items-center flex gap-2">
+                            <label key={id} className="items-center flex gap-2">
                                 <input
                                     type="checkbox"
                                     checked={selected}
@@ -109,7 +113,9 @@ const Order = () => {
                                     min="1"
                                     value={quantity}
                                     disabled={!selected}
-                                    onChange={(e) => handleQuantityChange(food, e.target.value)}
+                                    onChange={(e) =>
+                                        handleQuantityChange(id, e.target.value)
+                                    }
                                     className="w-16 p-1 rounded-md text-black"
                                 />
                             </label>
