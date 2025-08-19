@@ -6,12 +6,13 @@ const OrderSchema = new mongoose.Schema(
         phone: { type: String, required: true },
         items: [
             {
-                id: String, // food id
+                id: String,
                 name: String,
                 price: Number,
                 quantity: Number,
             }
         ],
+        image: { type: String },
         status: { type: String, default: 'Pending' }
     },
     { timestamps: true }

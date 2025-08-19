@@ -69,7 +69,7 @@ const Order = () => {
     };
 
     return (
-        <div>
+        <div className="w-1/4 rounded-xl border border-white justify-center items-center flex flex-cols ">
             {loading && <Loader />}
             <form onSubmit={handleSubmit}>
                 {/* Name & Phone */}
@@ -101,13 +101,13 @@ const Order = () => {
                             items.find((item) => item.id === id)?.quantity || 1;
 
                         return (
-                            <label key={id} className="items-center flex gap-2">
+                            <label key={id} className="items-center flex gap-4 m-3">
                                 <input
                                     type="checkbox"
                                     checked={selected}
                                     onChange={() => handleCheckboxChange(food)}
                                 />
-                                {food.name} - ${food.price}
+                                {food.name} 
                                 <input
                                     type="number"
                                     min="1"

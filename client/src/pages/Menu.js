@@ -16,11 +16,13 @@ const Menu = () => {
     return (
         <div>
             <h2 className='font-bold text-white text-xl'>Menu</h2>
-            <ul className='text-white '>
+            <ul className='text-white flex flex-row gap-10 m-3 '>
                 {menu.map(item =>
                 (
                     <li key={item.id}>
-                        {item.name} - ${item.price}
+                        <img className='w-32 h-24 rounded-lg' src={item.image} alt={item.name} ></img>
+                        <p className='justify-center items-center flex '>{item.name} </p>
+                        <p className='justify-center items-center flex '>${item.price}</p>
                     </li>
                 )
                 )}
