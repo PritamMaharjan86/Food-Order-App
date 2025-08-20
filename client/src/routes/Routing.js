@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Routing = () => {
     return (
-        <div className="bg-black h-full">
+        <div className="bg-black h-screen">
             <BrowserRouter>
 
                 <Routes>

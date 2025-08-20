@@ -3,11 +3,13 @@ import axios from 'axios';
 
 const Admin = () => {
     const [orders, setOrders] = useState([]);
+    const [total, setTotal] = useState();
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/order/getOrder')
             .then(res => setOrders(res.data))
             .catch(err => console.error(err));
+            
     }, []);
 
     const handleDelete = async (orderId) => {
@@ -37,6 +39,7 @@ const Admin = () => {
         }
     };
 
+  
     return (
         <div>
             {orders.length > 0 ? (
@@ -50,15 +53,17 @@ const Admin = () => {
                             <p><strong>Items:</strong></p>
                             <ul>
                                 {order.items.map((food, index) => (
+                                    
                                     <li key={food.id || index}>
-                                        {food.name} ({food.quantity}) ${food.price}
+                                        {food.name} - [{food.quantity} * ${food.price}] - ${food.quantity * food.price}
                                     </li>
+
                                 ))}
                             </ul>
 
                             <p><strong>Order Time:</strong> {new Date(order.createdAt).toLocaleTimeString()}</p>
                             <p><strong>Order Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
-
+                            <p><strong>TOTAL COST:  </strong></p>
                             <button
                                 onClick={() => handleDelete(order._id)}
                                 className="p-1 rounded-md bg-red-600 text-white shadow-xl m-1 border "
