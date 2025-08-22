@@ -55,7 +55,7 @@ const Admin = () => {
                                 {order.items.map((food, index) => (
                                     
                                     <li key={food.id || index}>
-                                        {food.name} - [{food.quantity} * ${food.price}] - ${food.quantity * food.price}
+                                        {food.name} - [{food.quantity} *                                     ${food.price}] - ${food.quantity * food.price}
                                     </li>
 
                                 ))}
