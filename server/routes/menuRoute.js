@@ -8,6 +8,9 @@ router.get('/menu', (req, res) => {
         { id: 4, name: 'Buff Noodles', price: 16.49, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpDz4-GZI5EPxY_2Q-d_HnCANSJ42Cf6EFWg&s' },
         { id: 5, name: 'Chicken Momo', price: 26.19, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMJo0RNeX_bMirOJW57pF62n23ciRRe7Jwlg&s' },
         { id: 6, name: 'Pork Fried Rice', price: 12.39, image: 'https://fullofplants.com/wp-content/uploads/2020/05/sweet-and-sour-spicy-thai-fried-rice-easy-vegan-meal-with-vegetables-thumb.jpg' },
+        { id: 7, name: 'Chilly Chicken', price: 16.69, image: 'https://notacurry.com/wp-content/uploads/2021/01/garlic-chicken-recipe-china-town-style.jpg' },
+        { id: 8, name: 'BBQ Buffalo Wings', price: 18.90, image: 'https://www.thecookierookie.com/wp-content/uploads/2024/02/bbq-chicken-wings-recipe-featured-image.jpg' },
+
     ]);
 })
 

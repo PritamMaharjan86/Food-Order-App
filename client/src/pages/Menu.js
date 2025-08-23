@@ -1,10 +1,21 @@
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
-// import Order from './Order'; // keep if you need it
+import { MdShoppingCart } from "react-icons/md";
+
 
 const Menu = () => {
     const [menu, setMenu] = useState([]);
     const sliderRef = useRef(null);
+    const [cart, setCart] = useState([]);
+    const [isCartOpen, setIsCartOpen] = useState(false);
+
+    const toggleCart = () => {
+        setIsCartOpen(true);
+    }
+
+    useEffect(() => {
+        document.title = `Orderul - Home`;
+    }, []);
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/menu')
@@ -22,9 +33,35 @@ const Menu = () => {
         });
     };
 
+    const handleCart = (item) => {
+        setCart((prevCart) => {
+            const existingItem = prevCart.find((food) => food.id === item.id);
+
+            if (existingItem) {
+                // If already in cart, increase quantity
+
+                console.log('added to cart', cart);
+                return prevCart.map((food) =>
+                    food.id === item.id
+                        ? { ...food, quantity: food.quantity + 1 }
+                        : food
+
+                );
+
+            } else {
+                // If not in cart, add new item
+                console.log('added to cart', cart);
+                return [...prevCart, { ...item, quantity: 1 }];
+
+            }
+        });
+    };
+
+
     return (
         <div className="relative">
             <h2 className="font-bold text-white p-3 text-2xl uppercase">What's popping today!</h2>
+            <button onClick={toggleCart} className='text-white p-2'><MdShoppingCart className='h-6 w-6' />({cart.length})</button>
             <div className='flex justify-center items-center'>
                 <div className="relative w-5/6 ">
 
@@ -59,7 +96,7 @@ const Menu = () => {
                                 />
                                 <p className="text-black font-bold mt-3">{item.name}</p>
                                 <p className="text-black mt-5">${item.price}</p>
-                                <button className="mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center">
+                                <button onClick={() => handleCart(item)} className="mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center">
                                     Add to cart
                                 </button>
                             </li>
