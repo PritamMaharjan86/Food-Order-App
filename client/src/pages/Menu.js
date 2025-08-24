@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { MdShoppingCart } from "react-icons/md";
+import Cart from '../components/Cart';
 
 
 const Menu = () => {
@@ -10,7 +11,7 @@ const Menu = () => {
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     const toggleCart = () => {
-        setIsCartOpen(true);
+        setIsCartOpen(!isCartOpen);
     }
 
     useEffect(() => {
@@ -40,8 +41,10 @@ const Menu = () => {
             if (existingItem) {
                 // If already in cart, increase quantity
 
+
                 console.log('added to cart', cart);
                 return prevCart.map((food) =>
+
                     food.id === item.id
                         ? { ...food, quantity: food.quantity + 1 }
                         : food
@@ -57,11 +60,32 @@ const Menu = () => {
         });
     };
 
+    const handleRemove = (foodId) => {
+        setCart(prevCart =>
+            prevCart
+                .map(item =>
+                    item.id === foodId ? { ...item, quantity: item.quantity - 1 } : item
+                )
+                .filter(item => item.quantity > 0) // remove completely if quantity 0
+        );
+    }
+
 
     return (
         <div className="relative">
-            <h2 className="font-bold text-white p-3 text-2xl uppercase">What's popping today!</h2>
-            <button onClick={toggleCart} className='text-white p-2'><MdShoppingCart className='h-6 w-6' />({cart.length})</button>
+            <div className='flex flex-row justify-between p-1'>
+                <h2 className="font-bold text-white p-3 text-2xl uppercase">What's popping today!</h2>
+                <button onClick={toggleCart} className='text-white p-4'><MdShoppingCart className='h-6 w-6' /><p className='text-red-400 font-semibold translate-x-3 -translate-y-10 text-sm'>{cart.length}</p></button>
+            </div>
+
+            <Cart
+                isCartOpen={isCartOpen}
+                toggleCart={toggleCart}
+                cart={cart}
+                handleRemove={handleRemove}
+                setCart={setCart}
+
+            />
             <div className='flex justify-center items-center'>
                 <div className="relative w-5/6 ">
 
@@ -104,6 +128,8 @@ const Menu = () => {
                     </ul>
                 </div>
             </div>
+
+
         </div>
     );
 };
