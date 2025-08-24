@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import { MdShoppingCart } from "react-icons/md";
 import Cart from '../components/Cart';
 
-
 const Menu = () => {
     const [menu, setMenu] = useState([]);
     const sliderRef = useRef(null);
