@@ -1,12 +1,11 @@
 import axios from "axios";
-import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // setLoading(true);
-
         const orderData = { items: cart, status: 'Pending' }; // ✅ send selected items, not menu
 
         try {
@@ -14,12 +13,12 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart }) => {
                 "http://localhost:3001/api/order/postOrder",
                 orderData
             );
-            alert(res.data.message);
             setCart([]);
+            toast.success(res.data.message);
 
         } catch (err) {
             console.error("Error placing order:", err);
-            alert("Failed to place order");
+            toast.error(err);
         } finally {
             // setLoading(false);
 

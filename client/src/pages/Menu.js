@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { MdShoppingCart } from "react-icons/md";
 import Cart from '../components/Cart';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Menu = () => {
     const [menu, setMenu] = useState([]);
@@ -34,10 +35,13 @@ const Menu = () => {
     };
 
     const handleCart = (item) => {
+        toast.success('Added to cart')
         setCart((prevCart) => {
+            
             const existingItem = prevCart.find((food) => food.id === item.id);
 
             if (existingItem) {
+                
                 // If already in cart, increase quantity
 
 
@@ -47,13 +51,15 @@ const Menu = () => {
                     food.id === item.id
                         ? { ...food, quantity: food.quantity + 1 }
                         : food
-
                 );
+                
 
             } else {
+                
                 // If not in cart, add new item
                 console.log('added to cart', cart);
                 return [...prevCart, { ...item, quantity: 1 }];
+                
 
             }
         });
@@ -72,6 +78,9 @@ const Menu = () => {
 
     return (
         <div className="relative">
+            <ToastContainer
+            position='top-center'
+            theme='colored' />
             <div className='flex flex-row justify-between p-1'>
                 <h2 className="font-bold text-white p-3 text-2xl uppercase">What's popping today!</h2>
                 <button onClick={toggleCart} className='text-white p-4'><MdShoppingCart className='h-6 w-6' /><p className='text-red-400 font-semibold translate-x-3 -translate-y-10 text-sm'>{cart.length}</p></button>
