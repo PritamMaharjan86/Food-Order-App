@@ -2,17 +2,28 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { MdShoppingCart } from "react-icons/md";
 import Cart from '../components/Cart';
-import { ToastContainer, toast } from 'react-toastify';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+
+
 
 const Menu = () => {
     const [menu, setMenu] = useState([]);
     const sliderRef = useRef(null);
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(() => {
+        // Load from localStorage on first render
+        const savedCart = localStorage.getItem("cart");
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
     const [isCartOpen, setIsCartOpen] = useState(false);
+
 
     const toggleCart = () => {
         setIsCartOpen(!isCartOpen);
     }
+
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }, [cart]);
 
     useEffect(() => {
         document.title = `Orderul - Home`;
@@ -37,11 +48,11 @@ const Menu = () => {
     const handleCart = (item) => {
         toast.success('Added to cart')
         setCart((prevCart) => {
-            
+
             const existingItem = prevCart.find((food) => food.id === item.id);
 
             if (existingItem) {
-                
+
                 // If already in cart, increase quantity
 
 
@@ -52,14 +63,14 @@ const Menu = () => {
                         ? { ...food, quantity: food.quantity + 1 }
                         : food
                 );
-                
+
 
             } else {
-                
+
                 // If not in cart, add new item
                 console.log('added to cart', cart);
                 return [...prevCart, { ...item, quantity: 1 }];
-                
+
 
             }
         });
@@ -75,15 +86,40 @@ const Menu = () => {
         );
     }
 
+    const handleAdd = (foodId) => {
+        setCart(prevCart =>
+            prevCart
+                .map(item =>
+                    item.id === foodId ? { ...item, quantity: item.quantity + 1 } : item
+                )
+
+        );
+    }
+
+    const removeFromCart = (foodId) => {
+        setCart((prevCart) => prevCart.filter((item) => item.id !== foodId));
+    };
+
 
     return (
         <div className="relative">
             <ToastContainer
-            position='top-center'
-            theme='colored' />
+                position="top-center"
+                autoClose={200}
+                limit={2}
+                hideProgressBar
+                newestOnTop
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+                transition={Bounce}
+            />
             <div className='flex flex-row justify-between p-1'>
                 <h2 className="font-bold text-white p-3 text-2xl uppercase">What's popping today!</h2>
-                <button onClick={toggleCart} className='text-white p-4'><MdShoppingCart className='h-6 w-6' /><p className='text-red-400 font-semibold translate-x-3 -translate-y-10 text-sm'>{cart.length}</p></button>
+                <button onClick={toggleCart} className='text-white p-4'><MdShoppingCart className='h-6 w-6 ' /><p className='bg-purple-400 text-white flex justify-center items-center rounded-full w-4 h-4 font-medium translate-x-3 -translate-y-8 text-sm '>{cart.length}</p></button>
             </div>
 
             <Cart
@@ -92,6 +128,8 @@ const Menu = () => {
                 cart={cart}
                 handleRemove={handleRemove}
                 setCart={setCart}
+                handleAdd={handleAdd}
+                removeFromCart={removeFromCart}
 
             />
             <div className='flex justify-center items-center'>
@@ -128,7 +166,7 @@ const Menu = () => {
                                 />
                                 <p className="text-black font-bold mt-3">{item.name}</p>
                                 <p className="text-black mt-5">${item.price}</p>
-                                <button onClick={() => handleCart(item)} className="mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center">
+                                <button onClick={() => handleCart(item)} className={`mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center`}>
                                     Add to cart
                                 </button>
                             </li>
