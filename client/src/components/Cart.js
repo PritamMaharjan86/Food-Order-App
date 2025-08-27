@@ -7,7 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 
 const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, removeFromCart }) => {
 
-  
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -81,17 +81,16 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                 <h3 className="font-bold">
                     Total: ${cart.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2)}
                 </h3>
-                <button
-                    className={`hover:bg-purple-600 shadow-lg shadow-purple-300 w-full text-white mt-2 py-2 rounded flex flex-row justify-center items-center gap-4 ${cart.length > 0 ? 'bg-purple-500 ' : 'bg-black bg-opacity-30 '}`}
-                    onClick={handleSubmit}
 
+                <button onClick={handleSubmit} className={`${cart.length > 0 ? 'bg-purple-500  shadow-purple-300 ' : 'bg-black bg-opacity-30 shadow-gray-300 '} mt-2 w-full h-fit relative overflow-hidden px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold transition-colors duration-300 group`}>
+                    <span className="relative z-10 flex gap-4 justify-center items-center"> Checkout {cart.length > 0 ? ' ' : <FaLock />}</span>
 
-                >
-                    Checkout
-                    {cart.length > 0 ? ' ' : <FaLock />}
-
-
+                    {/* for sliding layer */}
+                    <span className="absolute inset-0 bg-purple-800 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
                 </button>
+
+
+
             </div>
         </div>
 
