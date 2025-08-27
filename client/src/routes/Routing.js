@@ -1,5 +1,5 @@
-import Admin from "../pages/Admin";
 import Menu from "../pages/Menu"
+import Admin from "../pages/Admin";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Routing = () => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 
-const Admin = ({ cart }) => {
+const Admin = () => {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
