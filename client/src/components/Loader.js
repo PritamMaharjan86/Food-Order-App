@@ -1,8 +1,12 @@
+import { ClipLoader } from 'react-spinners';
+
 
 const Loader = () => {
     return (
-        <div className="fixed inset-0 flex justify-center items-center z-20">
-            <h3 className="text-white text-5xl">Loading......</h3>
+        <div className="fixed inset-0 flex justify-center items-center z-20 ">
+            <ClipLoader
+                color="#6b46c1"
+            />
         </div>
     )
 }

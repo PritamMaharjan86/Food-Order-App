@@ -8,7 +8,6 @@ import { MdDeleteForever } from "react-icons/md";
 const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, removeFromCart }) => {
 
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         // setLoading(true);

@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { MdShoppingCart } from "react-icons/md";
 import Cart from '../components/Cart';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
+import Loader from '../components/Loader';
 
 
 
@@ -15,6 +16,7 @@ const Menu = () => {
         return savedCart ? JSON.parse(savedCart) : [];
     });
     const [isCartOpen, setIsCartOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     const toggleCart = () => {
@@ -46,16 +48,19 @@ const Menu = () => {
     };
 
     const handleCart = (item) => {
+        setLoading(true);
+
+        setTimeout(() => {
+            setLoading(false);
+        }, 300);
         toast.success('Added to cart')
         setCart((prevCart) => {
 
             const existingItem = prevCart.find((food) => food.id === item.id);
 
             if (existingItem) {
-
+                
                 // If already in cart, increase quantity
-
-
                 console.log('added to cart', cart);
                 return prevCart.map((food) =>
 
@@ -63,7 +68,6 @@ const Menu = () => {
                         ? { ...food, quantity: food.quantity + 1 }
                         : food
                 );
-
 
             } else {
 
@@ -73,6 +77,7 @@ const Menu = () => {
 
 
             }
+
         });
     };
 
@@ -103,6 +108,7 @@ const Menu = () => {
 
     return (
         <div className="relative">
+            {loading ? <Loader /> : ''}
             <ToastContainer
                 position="top-center"
                 autoClose={200}
@@ -166,7 +172,7 @@ const Menu = () => {
                                 />
                                 <p className="text-black font-bold mt-3">{item.name}</p>
                                 <p className="text-black mt-5">${item.price}</p>
-                                <button onClick={() => handleCart(item)} className={`mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center`}>
+                                <button onClick={() => handleCart(item)} className={`hover:bg-opacity-80 hover:shadow-lg hover:bg-purple-800 mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center`}>
                                     Add to cart
                                 </button>
                             </li>
