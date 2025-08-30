@@ -16,7 +16,13 @@ const Menu = () => {
         return savedCart ? JSON.parse(savedCart) : [];
     });
     const [isCartOpen, setIsCartOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
+
+    const [loading, setLoading] = useState(null);
+
+    const [clicked, setClicked] = useState(() => {
+        const added = localStorage.getItem('clicked');
+        return added ? JSON.parse(added) : [];
+    });
 
 
     const toggleCart = () => {
@@ -26,6 +32,10 @@ const Menu = () => {
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));
     }, [cart]);
+
+    useEffect(() => {
+        localStorage.setItem("clicked", JSON.stringify(clicked));
+    }, [clicked]);
 
     useEffect(() => {
         document.title = `Orderul - Home`;
@@ -40,7 +50,7 @@ const Menu = () => {
     // Scroll helpers
     const scroll = (dir) => {
         if (!sliderRef.current) return;
-        const amount = 320; // px to move per click (tweak to taste)
+        const amount = 320;
         sliderRef.current.scrollBy({
             left: dir === 'left' ? -amount : amount,
             behavior: 'smooth',
@@ -48,18 +58,18 @@ const Menu = () => {
     };
 
     const handleCart = (item) => {
-        setLoading(true);
-
+        setLoading(item.id);
+        setClicked((prev) => [...prev, item.id]);
         setTimeout(() => {
-            setLoading(false);
-        }, 300);
+            setLoading(null);
+        }, 500);
         toast.success('Added to cart')
         setCart((prevCart) => {
 
             const existingItem = prevCart.find((food) => food.id === item.id);
 
             if (existingItem) {
-                
+
                 // If already in cart, increase quantity
                 console.log('added to cart', cart);
                 return prevCart.map((food) =>
@@ -108,7 +118,8 @@ const Menu = () => {
 
     return (
         <div className="relative">
-            {loading ? <Loader /> : ''}
+
+
             <ToastContainer
                 position="top-center"
                 autoClose={200}
@@ -172,8 +183,9 @@ const Menu = () => {
                                 />
                                 <p className="text-black font-bold mt-3">{item.name}</p>
                                 <p className="text-black mt-5">${item.price}</p>
-                                <button onClick={() => handleCart(item)} className={`hover:bg-opacity-80 hover:shadow-lg hover:bg-purple-800 mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center`}>
-                                    Add to cart
+                                <button onClick={() => handleCart(item)} className={`h-12 hover:bg-opacity-80 hover:shadow-lg hover:bg-purple-800 mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center`}>
+                                    {loading === item.id ? <Loader className="w-2 h-2 border-2 border-white border-t-transparent rounded-full animate-spin" /> : `${clicked.includes(item.id) ? 'Added ' : 'Add to cart'}`}
+
                                 </button>
                             </li>
                         ))}

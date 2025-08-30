@@ -1,7 +1,9 @@
 import axios from "axios";
 import { toast } from 'react-toastify';
 import { FaLock } from "react-icons/fa";
-import { IoIosRemoveCircleOutline, IoIosAddCircleOutline } from "react-icons/io";
+import { MdAdd } from "react-icons/md";
+import { FiMinus } from "react-icons/fi";
+
 import { MdDeleteForever } from "react-icons/md";
 
 
@@ -49,43 +51,50 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                     <p>No items in cart</p>
                 ) : (
                     cart.map((item) => (
-                        <div key={item.id} className="flex justify-between items-center py-2 border-b">
-                            <p>{item.name} </p>
+                        <div key={item.id} className="flex justify-between py-2 border-b">
+                            <div className="m-1">
+                                <p className="font-semibold">{item.name} </p>
+                                <p className="text-md ml-2 font-medium">${item.price}</p>
 
-                            <div className="w-20 justify-between flex">
-                                <button className="text-green-600 text-lg "
-                                    onClick={() => handleAdd(item.id)}>
-                                    <IoIosAddCircleOutline />
+                                <div className="flex flex-row items-center ">
 
-                                </button>
-                                {item.quantity}
-                                <button
-                                    className="text-red-600 text-lg "
-                                    onClick={() => handleRemove(item.id)}
-                                >
-                                    <IoIosRemoveCircleOutline />
-                                </button>
+                                    <div className=" w-fit flex text-lg gap-5 border border-purple-400 flex-row rounded-md m-2 bg-purple-400">
+                                        <button className="text-white text-lg flex items-center"
+                                            onClick={() => handleAdd(item.id)}>
+                                            <MdAdd />
+
+                                        </button>
+                                        <span className="bg-white w-10 justify-center flex">{item.quantity}</span>
+                                        <button
+                                            className="text-white text-lg flex items-center "
+                                            onClick={() => handleRemove(item.id)}
+                                        >
+                                            <FiMinus />
+                                        </button>
+
+                                    </div>
+                                    <button className="justify-end flex" onClick={() => removeFromCart(item.id)} ><MdDeleteForever className="w-5 h-5" />
+                                    </button>
+                                </div>
                             </div>
 
-                            <p>${(item.price * item.quantity).toFixed(2)}</p>
+                            <p className="font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
 
-                            <button onClick={() => removeFromCart(item.id)} ><MdDeleteForever className="text-red-500 w-5 h-5" />
-                            </button>
+
                         </div>
                     ))
                 )}
             </div>
 
-            <div className="p-4 border-t  border-purple-300">
-                <h3 className="font-bold">
-                    Total: ${cart.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2)}
-                </h3>
+            <div className="p-4 border-t  border-purple-300 flex flex-col ">
+                <div className="justify-end flex gap-2 font-bold">
+                    <span>Total:</span>
+                    <span>${cart.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2)}</span>
+                </div>
 
                 <button onClick={handleSubmit} className={`${cart.length > 0 ? 'bg-purple-500  shadow-purple-300 ' : 'bg-black bg-opacity-30 shadow-gray-300 '} mt-2 w-full h-fit relative overflow-hidden px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold transition-colors duration-300 group`}>
                     <span className="relative z-10 flex gap-4 justify-center items-center"> Checkout {cart.length > 0 ? ' ' : <FaLock />}</span>
-
-                    {/* for sliding layer */}
-                    <span className="absolute inset-0 bg-purple-800 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                    {cart.length > 0 ? <span className="absolute inset-0 bg-purple-800 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out"></span> : ''}
                 </button>
 
 
