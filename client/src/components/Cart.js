@@ -12,7 +12,6 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // setLoading(true);
         const orderData = { items: cart, status: 'Pending' }; // ✅ send selected items, not menu
 
         try {
@@ -59,14 +58,14 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                                 <div className="flex flex-row items-center ">
 
                                     <div className=" w-fit flex text-lg gap-5 border border-purple-400 flex-row rounded-md m-2 bg-purple-400">
-                                        <button className="text-white text-lg flex items-center"
+                                        <button className="text-white text-lg flex items-center ml-5"
                                             onClick={() => handleAdd(item.id)}>
                                             <MdAdd />
 
                                         </button>
-                                        <span className="bg-white w-10 justify-center flex">{item.quantity}</span>
+                                        <span className="bg-white w-10 justify-center flex ">{item.quantity}</span>
                                         <button
-                                            className="text-white text-lg flex items-center "
+                                            className="text-white text-lg flex items-center mr-5 "
                                             onClick={() => handleRemove(item.id)}
                                         >
                                             <FiMinus />

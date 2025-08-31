@@ -112,6 +112,7 @@ const Menu = () => {
     }
 
     const removeFromCart = (foodId) => {
+        localStorage.removeItem("clicked");
         setCart((prevCart) => prevCart.filter((item) => item.id !== foodId));
     };
 
