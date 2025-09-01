@@ -91,15 +91,16 @@ const Menu = () => {
         });
     };
 
-    const handleRemove = (foodId) => {
-        setCart(prevCart =>
-            prevCart
-                .map(item =>
-                    item.id === foodId ? { ...item, quantity: item.quantity - 1 } : item
-                )
-                .filter(item => item.quantity > 0) // remove completely if quantity 0
-        );
-    }
+  const handleRemove = (itemId) => {
+  setCart((prevCart) => {
+    const updatedCart = prevCart
+      .map(ci => ci.id === itemId ? { ...ci, quantity: ci.quantity - 1 } : ci)
+      .filter(ci => ci.quantity > 0); // remove completely if quantity is 0
+
+    return updatedCart;
+  });
+};
+
 
     const handleAdd = (foodId) => {
         setCart(prevCart =>
@@ -112,8 +113,11 @@ const Menu = () => {
     }
 
     const removeFromCart = (foodId) => {
-        localStorage.removeItem("clicked");
+        // Update cart state (triggers rerender)
         setCart((prevCart) => prevCart.filter((item) => item.id !== foodId));
+
+        // Update "clicked" so only the removed item is cleared
+        setClicked((prev) => prev.filter((clickedId) => clickedId !== foodId));
     };
 
 

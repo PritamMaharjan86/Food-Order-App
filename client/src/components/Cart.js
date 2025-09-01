@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { FaLock } from "react-icons/fa";
 import { MdAdd } from "react-icons/md";
 import { FiMinus } from "react-icons/fi";
-
+import { FaArrowRight } from "react-icons/fa6";
 import { MdDeleteForever } from "react-icons/md";
 
 
@@ -42,7 +42,8 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
         >
             <div className="p-4 flex justify-between items-center border-b border-purple-300">
                 <h2 className="text-xl font-bold">Your Cart</h2>
-                <button className="text-red-600" onClick={toggleCart}>✕</button>
+                <button className="text-red-600" onClick={toggleCart}><FaArrowRight />
+                </button>
             </div>
 
             <div className="p-4 overflow-y-auto h-[80%] ">
@@ -63,7 +64,7 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                                             <MdAdd />
 
                                         </button>
-                                        <span className="bg-white w-10 justify-center flex ">{item.quantity}</span>
+                                        <span className="bg-white w-10 justify-center flex rounded-md ">{item.quantity}</span>
                                         <button
                                             className="text-white text-lg flex items-center mr-5 "
                                             onClick={() => handleRemove(item.id)}
@@ -72,7 +73,7 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                                         </button>
 
                                     </div>
-                                    <button className="justify-end flex" onClick={() => removeFromCart(item.id)} ><MdDeleteForever className="w-5 h-5" />
+                                    <button className="justify-end flex" onClick={() => removeFromCart(item.id)} ><MdDeleteForever className="w-6 h-6 text-red-500" />
                                     </button>
                                 </div>
                             </div>
@@ -87,7 +88,7 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
 
             <div className="p-4 border-t  border-purple-300 flex flex-col ">
                 <div className="justify-end flex gap-2 font-bold">
-                    <span>Total:</span>
+                    <span>Subtotal:</span>
                     <span>${cart.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2)}</span>
                 </div>
 
