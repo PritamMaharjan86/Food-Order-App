@@ -91,17 +91,17 @@ const Menu = () => {
         });
     };
 
-  const handleRemove = (itemId) => {
-  setCart((prevCart) => {
-    const updatedCart = prevCart
-      .map(ci => ci.id === itemId ? { ...ci, quantity: ci.quantity - 1 } : ci)
-      .filter(ci => ci.quantity > 0); // remove completely if quantity is 0
+    const handleRemove = (itemId) => {
+        setCart((prevCart) => {
+            const updatedCart = prevCart
+                .map(ci => ci.id === itemId ? { ...ci, quantity: ci.quantity - 1 } : ci)
+                .filter(ci => ci.quantity > 0); // remove completely if quantity is 0
 
-    return updatedCart;
-  });
-};
+            return updatedCart;
+        });
+    };
 
-
+ 
     const handleAdd = (foodId) => {
         setCart(prevCart =>
             prevCart
