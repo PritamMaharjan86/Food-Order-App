@@ -95,13 +95,24 @@ const Menu = () => {
         setCart((prevCart) => {
             const updatedCart = prevCart
                 .map(ci => ci.id === itemId ? { ...ci, quantity: ci.quantity - 1 } : ci)
-                .filter(ci => ci.quantity > 0); // remove completely if quantity is 0
+                .filter(ci => ci.quantity > 0); // remove if qty is 0
+
+            // update localStorage
+            localStorage.setItem("cart", JSON.stringify(updatedCart));
+
+            // if item fully removed, also update clicked
+            const isRemoved = !updatedCart.find(ci => ci.id === itemId);
+            if (isRemoved) {
+                setClicked((prev) => prev.filter((clickedId) => clickedId !== itemId));
+            }
 
             return updatedCart;
         });
     };
 
- 
+
+
+
     const handleAdd = (foodId) => {
         setCart(prevCart =>
             prevCart
