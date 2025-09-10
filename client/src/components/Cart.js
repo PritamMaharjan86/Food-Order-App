@@ -53,7 +53,8 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                     cart.map((item) => (
                         <div key={item.id} className="flex justify-between py-2 border-b">
                             <div className="m-1">
-                                <p className="font-semibold">{item.name} </p>
+                                <img className="w-10 h-10" src={item.image}></img>
+                                <p className="font-semibold"> </p>
                                 <p className="text-md ml-2 font-medium">${item.price}</p>
 
                                 <div className="flex flex-row items-center ">
