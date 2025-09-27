@@ -53,11 +53,17 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                     cart.map((item) => (
                         <div key={item.id} className="flex justify-between py-2 border-b">
                             <div className="m-1">
-                                <img className="w-10 h-10" src={item.image}></img>
-                                <p className="font-semibold"> </p>
-                                <p className="text-md ml-2 font-medium">${item.price}</p>
+                                <div className="flex flex-row gap-5">
+                                    <img className="w-12 h-12 rounded-lg" src={item.image} alt="item"></img>
+                                    <div>
+                                        <p className="font-semibold"> {item.name}</p>
+                                        <p className="font-medium ml-1">${item.price}</p>
+
+                                    </div>
+                                </div>
 
                                 <div className="flex flex-row items-center ">
+
 
                                     <div className=" w-fit flex text-lg gap-5 border border-purple-400 flex-row rounded-md m-2 bg-purple-400">
                                         <button className="text-white text-lg flex items-center ml-5"
@@ -94,7 +100,7 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                 </div>
 
                 <button onClick={handleSubmit} className={`${cart.length > 0 ? 'bg-purple-500  shadow-purple-300 ' : 'bg-black bg-opacity-30 shadow-gray-300 '} mt-2 w-full h-fit relative overflow-hidden px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold transition-colors duration-300 group`}>
-                    <span className="relative z-10 flex gap-4 justify-center items-center"> Checkout {cart.length > 0 ? ' ' : <FaLock />}</span>
+                    <span className="relative z-10 flex gap-4 justify-center items-center"> Proceed to checkout {cart.length > 0 ? ' ' : <FaLock />}</span>
                     {cart.length > 0 ? <span className="absolute inset-0 bg-purple-800 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out"></span> : ''}
                 </button>
 
