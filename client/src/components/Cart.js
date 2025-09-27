@@ -56,8 +56,8 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                                 <div className="flex flex-row gap-5">
                                     <img className="w-12 h-12 rounded-lg" src={item.image} alt="item"></img>
                                     <div>
-                                        <p className="font-semibold"> {item.name}</p>
-                                        <p className="font-medium ml-1">${item.price}</p>
+                                        <p className="font-semibold text-md"> {item.name}</p>
+                                        <p className="font-medium ml-1n text-sm">${item.price}</p>
 
                                     </div>
                                 </div>
@@ -65,13 +65,13 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                                 <div className="flex flex-row items-center ">
 
 
-                                    <div className=" w-fit flex text-lg gap-5 border border-purple-400 flex-row rounded-md m-2 bg-purple-400">
+                                    <div className="flex gap-5 border border-purple-400 flex-row rounded-md mt-4 bg-purple-400">
                                         <button className="text-white text-lg flex items-center ml-5"
                                             onClick={() => handleAdd(item.id)}>
                                             <MdAdd />
 
                                         </button>
-                                        <span className="bg-white w-10 justify-center flex rounded-md ">{item.quantity}</span>
+                                        <span className="bg-white w-8 justify-center flex rounded-md text-sm">{item.quantity}</span>
                                         <button
                                             className="text-white text-lg flex items-center mr-5 "
                                             onClick={() => handleRemove(item.id)}
@@ -80,12 +80,12 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                                         </button>
 
                                     </div>
-                                    <button className="justify-end flex" onClick={() => removeFromCart(item.id)} ><MdDeleteForever className="w-6 h-6 text-red-500" />
+                                    <button className="justify-end flex mt-4 ml-4" onClick={() => removeFromCart(item.id)} ><MdDeleteForever className="w-6 h-6 text-red-500" />
                                     </button>
                                 </div>
                             </div>
 
-                            <p className="font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
+                            <p className="font-semibold text-md">${(item.price * item.quantity).toFixed(2)}</p>
 
 
                         </div>
