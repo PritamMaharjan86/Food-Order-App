@@ -37,7 +37,7 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
     return (
 
         <div
-            className={`fixed top-0 right-0 h-screen w-80 bg-white shadow-2xl transform transition-transform duration-300 z-50 
+            className={`fixed top-0 right-0 h-screen md:h-max w-80 bg-white shadow-2xl transform transition-transform duration-300 z-50 
     ${isCartOpen ? "translate-x-0" : "translate-x-full"}`}
         >
             <div className="p-4 flex justify-between items-center border-b border-purple-300">

@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
-import { MdShoppingCart } from "react-icons/md";
+import { MdShoppingCart, MdAdd } from "react-icons/md";
+import { FiMinus } from "react-icons/fi";
 import Cart from '../components/Cart';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import Loader from '../components/Loader';
-
-
 
 const Menu = () => {
     const [menu, setMenu] = useState([]);
@@ -16,18 +15,15 @@ const Menu = () => {
         return savedCart ? JSON.parse(savedCart) : [];
     });
     const [isCartOpen, setIsCartOpen] = useState(false);
-
     const [loading, setLoading] = useState(null);
-
     const [clicked, setClicked] = useState(() => {
         const added = localStorage.getItem('clicked');
         return added ? JSON.parse(added) : [];
     });
 
-
     const toggleCart = () => {
         setIsCartOpen(!isCartOpen);
-    }
+    };
 
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));
@@ -63,31 +59,18 @@ const Menu = () => {
         setTimeout(() => {
             setLoading(null);
         }, 500);
-        toast.success('Added to cart')
+        toast.success('Added to cart');
         setCart((prevCart) => {
-
             const existingItem = prevCart.find((food) => food.id === item.id);
-
             if (existingItem) {
-
-                // If already in cart, increase quantity
-                console.log('added to cart', cart);
                 return prevCart.map((food) =>
-
                     food.id === item.id
                         ? { ...food, quantity: food.quantity + 1 }
                         : food
                 );
-
             } else {
-
-                // If not in cart, add new item
-                console.log('added to cart', cart);
                 return [...prevCart, { ...item, quantity: 1 }];
-
-
             }
-
         });
     };
 
@@ -95,9 +78,8 @@ const Menu = () => {
         setCart((prevCart) => {
             const updatedCart = prevCart
                 .map(ci => ci.id === itemId ? { ...ci, quantity: ci.quantity - 1 } : ci)
-                .filter(ci => ci.quantity > 0); // remove if qty is 0
+                .filter(ci => ci.quantity > 0);
 
-            // update localStorage
             localStorage.setItem("cart", JSON.stringify(updatedCart));
 
             // if item fully removed, also update clicked
@@ -110,32 +92,21 @@ const Menu = () => {
         });
     };
 
-
-
-
     const handleAdd = (foodId) => {
         setCart(prevCart =>
-            prevCart
-                .map(item =>
-                    item.id === foodId ? { ...item, quantity: item.quantity + 1 } : item
-                )
-
+            prevCart.map(item =>
+                item.id === foodId ? { ...item, quantity: item.quantity + 1 } : item
+            )
         );
-    }
+    };
 
     const removeFromCart = (foodId) => {
-        // Update cart state (triggers rerender)
         setCart((prevCart) => prevCart.filter((item) => item.id !== foodId));
-
-        // Update "clicked" so only the removed item is cleared
         setClicked((prev) => prev.filter((clickedId) => clickedId !== foodId));
     };
 
-
     return (
         <div className="relative">
-
-
             <ToastContainer
                 position="top-center"
                 autoClose={200}
@@ -150,9 +121,15 @@ const Menu = () => {
                 theme="colored"
                 transition={Bounce}
             />
+
             <div className='flex flex-row justify-between p-1'>
                 <h2 className="font-bold text-white p-3 text-2xl uppercase">What's popping today!</h2>
-                <button onClick={toggleCart} className='text-white p-4'><MdShoppingCart className='h-6 w-6 ' /><p className='bg-purple-400 text-white flex justify-center items-center rounded-full w-4 h-4 font-medium translate-x-3 -translate-y-8 text-sm '>{cart.length}</p></button>
+                <button onClick={toggleCart} className='text-white p-4'>
+                    <MdShoppingCart className='h-6 w-6 ' />
+                    <p className='bg-purple-400 text-white flex justify-center items-center rounded-full w-4 h-4 font-medium translate-x-3 -translate-y-8 text-sm '>
+                        {cart.length}
+                    </p>
+                </button>
             </div>
 
             <Cart
@@ -163,18 +140,16 @@ const Menu = () => {
                 setCart={setCart}
                 handleAdd={handleAdd}
                 removeFromCart={removeFromCart}
-
             />
+
             <div className='flex justify-center items-center'>
                 <div className="relative w-5/6 ">
-
                     <button
                         onClick={() => scroll('left')}
                         className="absolute -left-10 top-1/2 h-8 w-8 -translate-y-1/2 z-20 bg-purple-400/70 text-white rounded-full shadow hover:bg-purple-600"
                     >
                         ◀
                     </button>
-
 
                     <button
                         onClick={() => scroll('right')}
@@ -199,17 +174,44 @@ const Menu = () => {
                                 />
                                 <p className="text-black font-bold mt-3">{item.name}</p>
                                 <p className="text-black mt-5">${item.price}</p>
-                                <button onClick={() => handleCart(item)} className={`h-12 hover:bg-opacity-80 hover:shadow-lg hover:bg-purple-800 mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center`}>
-                                    {loading === item.id ? <Loader className="w-2 h-2 border-2 border-white border-t-transparent rounded-full animate-spin" /> : `${clicked.includes(item.id) ? 'Added ' : 'Add to cart'}`}
 
-                                </button>
+                                {clicked.includes(item.id) ? (
+                                    // Counter UI
+                                    <div className="flex justify-evenly items-center gap-5 h-12 border border-purple-500 flex-row rounded-md mt-2 bg-purple-500">
+                                        <button
+                                            className="text-white text-lg flex items-center ml-5 "
+                                            onClick={() => handleAdd(item.id)}
+                                        >
+                                            <MdAdd />
+                                        </button>
+                                        <span className="bg-white w-12 h-10 justify-center items-center flex rounded-md text-sm">
+                                            {cart.find((ci) => ci.id === item.id)?.quantity || 1}
+                                        </span>
+                                        <button
+                                            className="text-white text-lg flex items-center mr-5"
+                                            onClick={() => handleRemove(item.id)}
+                                        >
+                                            <FiMinus />
+                                        </button>
+                                    </div>
+                                ) : (
+                                    // Add to Cart Button
+                                    <button
+                                        onClick={() => handleCart(item)}
+                                        className="h-12 hover:bg-opacity-80 hover:shadow-lg hover:bg-purple-800 mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center"
+                                    >
+                                        {loading === item.id ? (
+                                            <Loader className="w-2 h-2 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                        ) : (
+                                            "Add to cart"
+                                        )}
+                                    </button>
+                                )}
                             </li>
                         ))}
                     </ul>
                 </div>
             </div>
-
-
         </div>
     );
 };
