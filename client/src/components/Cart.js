@@ -37,7 +37,7 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
     return (
 
         <div
-            className={`fixed top-0 right-0 h-screen md:h-max w-80 bg-white shadow-2xl transform transition-transform duration-300 z-50 
+            className={`fixed top-0 right-0 h-screen w-80 bg-white shadow-2xl transform transition-transform duration-300 z-50 
     ${isCartOpen ? "translate-x-0" : "translate-x-full"}`}
         >
             <div className="p-4 flex justify-between items-center border-b border-purple-300">
@@ -65,13 +65,13 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                                 <div className="flex flex-row items-center ">
 
 
-                                    <div className="flex gap-5 border border-purple-400 flex-row rounded-md mt-4 bg-purple-400">
+                                    <div className="flex gap-5 border border-purple-500 h-8 flex-row rounded-md mt-4 bg-purple-500">
                                         <button className="text-white text-lg flex items-center ml-5"
                                             onClick={() => handleAdd(item.id)}>
                                             <MdAdd />
 
                                         </button>
-                                        <span className="bg-white w-8 justify-center flex rounded-md text-sm">{item.quantity}</span>
+                                        <span className="bg-white w-8 justify-center flex rounded-md items-center text-sm">{item.quantity}</span>
                                         <button
                                             className="text-white text-lg flex items-center mr-5 "
                                             onClick={() => handleRemove(item.id)}

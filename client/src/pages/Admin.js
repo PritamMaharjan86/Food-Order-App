@@ -45,7 +45,7 @@ const Admin = () => {
                 <div className='bg-white'>
                     {orders.map(order => (
                         <div key={order._id} className='border-b py-2 m-2'>
-                            <p><strong>Status:</strong> {order.status}</p>
+                            <p className={order.status === 'Pending' ? 'text-red-500' : 'text-green-500'}><strong>Status:</strong> {order.status}</p>
                             <p><strong>Name:</strong> {order.name}</p>
                             <p><strong>Phone:</strong> {order.phone}</p>
 
@@ -62,7 +62,7 @@ const Admin = () => {
 
                             <p><strong>Order Time:</strong> {new Date(order.createdAt).toLocaleTimeString()}</p>
                             <p><strong>Order Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
-                            <p><strong>Total Cost: ${order.items.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2)}  </strong></p>
+                            <p className="text-blue-500"><strong>Total Cost: ${order.items.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2)}  </strong></p>
                             <button
                                 onClick={() => handleDelete(order._id)}
                                 className="p-1 rounded-md bg-red-600 text-white shadow-xl m-1 border "
