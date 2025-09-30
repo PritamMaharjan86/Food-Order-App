@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Admin = () => {
     const [orders, setOrders] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/order/getOrder')
@@ -39,8 +41,18 @@ const Admin = () => {
     };
 
 
+    const handleLogOff = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('loggedIn');
+        setTimeout(() => {
+            navigate('/login');
+        }, 1000);
+    }
+
+
     return (
-        <div>
+        <div className="bg-white">
+            <button onClick={handleLogOff} className="border bg-red-600 p-1 rounded-lg m-2 text-white">Log Off</button>
             {orders.length > 0 ? (
                 <div className='bg-white'>
                     {orders.map(order => (
