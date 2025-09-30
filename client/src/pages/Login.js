@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { TbLockPassword } from "react-icons/tb";
 import { BiHide, BiShowAlt } from "react-icons/bi";
-import { FaLongArrowAltRight } from "react-icons/fa";
+import Loader from '../components/Loader';
 
 
 function Login() {
@@ -14,6 +14,7 @@ function Login() {
     const [validateEmail, setValidateEmail] = useState(false);
     const [login, setLogin] = useState({ email: '', password: '' });
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const PasswordVisible = () => {
         setShowPassword(!showPassword);
@@ -55,7 +56,7 @@ function Login() {
     };
 
     const handleLogin = async (e) => {
-
+        setLoading(true);
         e.preventDefault();
         const { email, password } = login;
 
@@ -103,9 +104,10 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-purple-100  p-4">
-
+        <div className="min-h-screen flex items-center justify-center bg-purple-100 p-4">
+            {loading ? <Loader /> : ''}
             <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 sm:p-10">
+
                 <form className="w-full" onSubmit={handleLogin}>
                     <h1 className="relative text-5xl font-light text-purple-400 mb-8 text-center sm:text-left">
                         Admin
