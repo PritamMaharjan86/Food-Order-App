@@ -7,7 +7,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import { MdDeleteForever } from "react-icons/md";
 
 
-const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, removeFromCart }) => {
+const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, removeFromCart, setClicked }) => {
 
 
     const handleSubmit = async (e) => {
@@ -21,12 +21,18 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
             );
             setCart([]);
             toast.success(res.data.message);
+            setCart(() => {
+                const updatedCart = [];
+                localStorage.setItem("cart", JSON.stringify(updatedCart));
+                return updatedCart;
+            });
 
+            setClicked([]);
         } catch (err) {
             console.error("Error placing order:", err);
             toast.error(err);
         } finally {
-            // setLoading(false);
+
 
         }
     };

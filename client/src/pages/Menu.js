@@ -61,6 +61,7 @@ const Menu = () => {
         }, 500);
         toast.success('Added to cart');
         setCart((prevCart) => {
+
             const existingItem = prevCart.find((food) => food.id === item.id);
             if (existingItem) {
                 return prevCart.map((food) =>
@@ -69,6 +70,7 @@ const Menu = () => {
                         : food
                 );
             } else {
+                    
                 return [...prevCart, { ...item, quantity: 1 }];
             }
         });
