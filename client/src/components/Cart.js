@@ -20,20 +20,12 @@ const Cart = ({ cart, isCartOpen, toggleCart, handleRemove, setCart, handleAdd, 
                 orderData
             );
             setCart([]);
-            toast.success(res.data.message);
-            setCart(() => {
-                const updatedCart = [];
-                localStorage.setItem("cart", JSON.stringify(updatedCart));
-                return updatedCart;
-            });
-
             setClicked([]);
+            toast.success(res.data.message);
+
         } catch (err) {
             console.error("Error placing order:", err);
             toast.error(err);
-        } finally {
-
-
         }
     };
 

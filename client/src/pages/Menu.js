@@ -9,11 +9,13 @@ import Loader from '../components/Loader';
 const Menu = () => {
     const [menu, setMenu] = useState([]);
     const sliderRef = useRef(null);
+
     const [cart, setCart] = useState(() => {
         // Load from localStorage on first render
         const savedCart = localStorage.getItem("cart");
         return savedCart ? JSON.parse(savedCart) : [];
     });
+
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [loading, setLoading] = useState(null);
     const [clicked, setClicked] = useState(() => {
@@ -34,7 +36,7 @@ const Menu = () => {
     }, [clicked]);
 
     useEffect(() => {
-        document.title = `Orderul - Home`;
+        document.title = `OrderNow - Food at your doorstep`;
     }, []);
 
     useEffect(() => {
@@ -70,7 +72,7 @@ const Menu = () => {
                         : food
                 );
             } else {
-                    
+
                 return [...prevCart, { ...item, quantity: 1 }];
             }
         });
@@ -142,6 +144,7 @@ const Menu = () => {
                 setCart={setCart}
                 handleAdd={handleAdd}
                 removeFromCart={removeFromCart}
+                setClicked={setClicked}
             />
 
             <div className='flex justify-center items-center'>
