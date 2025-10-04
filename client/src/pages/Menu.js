@@ -127,9 +127,9 @@ const Menu = () => {
             />
 
             <div className='flex flex-row justify-between p-1'>
-                <h2 className="font-bold text-white p-3 text-2xl uppercase">What's popping today!</h2>
-                <button onClick={toggleCart} className='text-white p-4'>
-                    <MdShoppingCart className='h-6 w-6 ' />
+                <h2 className="font-bold text-black p-3 text-2xl uppercase">What's popping today!</h2>
+                <button onClick={toggleCart} className='p-4'>
+                    <MdShoppingCart className='h-6 w-6 text-black ' />
                     <p className='bg-purple-400 text-white flex justify-center items-center rounded-full w-4 h-4 font-medium translate-x-3 -translate-y-8 text-sm '>
                         {cart.length}
                     </p>
@@ -147,7 +147,7 @@ const Menu = () => {
                 setClicked={setClicked}
             />
 
-            <div className='flex justify-center items-center'>
+            <div className='flex justify-center items-center '>
                 <div className="relative w-5/6 ">
                     <button
                         onClick={() => scroll('left')}
@@ -165,12 +165,12 @@ const Menu = () => {
 
                     <ul
                         ref={sliderRef}
-                        className="flex overflow-x-auto gap-6 p-4 scroll-smooth no-scrollbar"
+                        className="flex overflow-x-auto gap-6 p-4 scroll-smooth no-scrollbar "
                     >
                         {menu.map((item) => (
                             <li
                                 key={item.id}
-                                className="min-w-[220px] flex-shrink-0 snap-start flex flex-col bg-white rounded-md p-3 border border-white"
+                                className="border border-gray-400 min-w-[220px] flex-shrink-0 snap-start flex flex-col bg-white rounded-sm p-3"
                             >
                                 <img
                                     src={item.image}

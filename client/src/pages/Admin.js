@@ -58,9 +58,15 @@ const Admin = () => {
                     {orders.map(order => (
                         <div key={order._id} className='border-b py-2 m-2'>
                             <p className={order.status === 'Pending' ? 'text-red-500' : 'text-green-500'}><strong>Status:</strong> {order.status}</p>
-                            <p><strong>Name:</strong> {order.name}</p>
-                            <p><strong>Phone:</strong> {order.phone}</p>
-
+                            {order.customer ? (
+                                <div className="mb-3">
+                                    <p><strong>Name:</strong> {order.customer.name}</p>
+                                    <p><strong>Phone:</strong> {order.customer.phone}</p>
+                                    <p><strong>Address:</strong> {order.customer.address}</p>
+                                </div>
+                            ) : (
+                                <p className="text-gray-500 italic">No customer info</p>
+                            )}
                             <p><strong>Items:</strong></p>
                             <ul>
                                 {order.items.map((food, index) => (

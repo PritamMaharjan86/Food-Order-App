@@ -16,7 +16,7 @@ const Routing = () => {
 
 
     return (
-        <div className="bg-black h-screen ">
+        <div className="bg-white h-fit ">
             <BrowserRouter>
                 <RefreshHandler setIsAuthenticate={setIsAuthenticate} />
 

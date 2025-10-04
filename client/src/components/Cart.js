@@ -5,8 +5,6 @@ import { FiMinus } from "react-icons/fi";
 import { FaArrowRight } from "react-icons/fa6";
 import { MdDeleteForever } from "react-icons/md";
 import { useState } from "react";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 
 const Cart = ({
   cart,
@@ -18,17 +16,19 @@ const Cart = ({
   removeFromCart,
   setClicked,
 }) => {
+
   const [enterDetail, setEnterDetail] = useState(false);
   const [showPlaceOrder, setShowPlaceOrder] = useState(false);
   const [showCheckout, setShowCheckout] = useState(true);
+  const [contact, setContact] = useState({
+    name: '',
+    phone: '',
+    address: ''
+  });
 
   const handleSubmit = async (e) => {
-    setEnterDetail(false);
-    setShowPlaceOrder(false);
-    setShowCheckout(true);
     e.preventDefault();
-    const orderData = { items: cart, status: "Pending" }; // ✅ send selected items, not menu
-
+    const orderData = { items: cart, status: "Pending" , customer:{name:contact.name, phone: contact.phone, address: contact.address,}};
     try {
       const res = await axios.post(
         "http://localhost:3001/api/order/postOrder",
@@ -37,6 +37,10 @@ const Cart = ({
       setCart([]);
       setClicked([]);
       toast.success(res.data.message);
+      setEnterDetail(false);
+      setShowPlaceOrder(false);
+      setShowCheckout(true);
+      setContact([]);
     } catch (err) {
       console.error("Error placing order:", err);
       toast.error(err);
@@ -51,9 +55,9 @@ const Cart = ({
 
   return (
     <div
-      className={`fixed top-0 right-0 h-fit w-80 bg-white shadow-2xl transform transition-transform duration-300 z-50 
+      className={`border border-purple-500 rounded-md fixed top-0 right-0 h-fit w-80 bg-white shadow-2xl shadow-purple-400 transform transition-transform duration-300 z-50 
     ${isCartOpen ? "translate-x-0" : "translate-x-full"}`}>
-      <div className="p-4 flex justify-between items-center border-b border-purple-300 ">
+      <div className="p-4 flex justify-between items-center border-b border-purple-500 ">
         <h2 className="text-xl font-bold">Your Cart</h2>
         <button className="text-red-600" onClick={toggleCart}>
           <FaArrowRight />
@@ -110,7 +114,7 @@ const Cart = ({
         )}
       </div>
 
-      <div className="p-4 border-t  border-purple-300 flex flex-col ">
+      <div className="p-4 border-t  border-purple-500 flex flex-col ">
         <div className="justify-end flex gap-2 font-bold">
           <span>Subtotal:</span>
           <span>
@@ -121,11 +125,10 @@ const Cart = ({
         {showCheckout && cart.length > 0 ? (
           <button
             onClick={getDetail}
-            className={`${
-              cart.length > 0
-                ? "bg-purple-500  shadow-purple-300 "
-                : "bg-black bg-opacity-30 shadow-gray-300 "
-            } mt-2 w-full h-fit relative overflow-hidden px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold transition-colors duration-300 group`}>
+            className={`${cart.length > 0
+              ? "bg-purple-500  shadow-purple-300 "
+              : "bg-black bg-opacity-30 shadow-gray-300 "
+              } mt-2 w-full h-fit relative overflow-hidden px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold transition-colors duration-300 group`}>
             <span className="relative z-10 flex gap-4 justify-center items-center">
               {" "}
               Proceed to checkout
@@ -141,72 +144,47 @@ const Cart = ({
           ""
         )}
 
-        {enterDetail ? (
-          <div>
-            <h4 className="font-bold">Contact</h4>
-            <Box
-              component="form"
-              sx={{
-                "& .MuiTextField-root": { m: 1, width: "25ch", height: "50px" },
-              }}
-              noValidate
-              autoComplete="off">
-              <TextField
-                required
-                id="outlined-required"
-                label="First name"
-                inputProps={{
-                  maxLength: 15,
-                  style: {
-                    textTransform: "capitalize",
-                    height: "10px",
-                  },
-                }}
-              />
-              <TextField
-                required
-                id="outlined-required"
-                label="Last name"
-                inputProps={{
-                  maxLength: 15,
-                  style: {
-                    textTransform: "capitalize",
-                    height: "10px",
-                  },
-                }}
-              />
-              <TextField
-                required
-                id="outlined-required"
-                label="Address"
-                inputProps={{
-                  maxLength: 50,
-                  style: {
-                    textTransform: "capitalize",
-                    height: "10px",
-                  },
-                }}
-              />
-              <TextField
-                required
-                type="number"
-                id="outlined-required"
-                label="Phone"
-              />
-            </Box>
+        {enterDetail && (
+          <div className="flex flex-col gap-3 mt-4">
+            <h4 className="font-bold text-lg mb-2">Contact Details</h4>
+
+            <label className="text-sm font-semibold">Name:</label>
+            <input
+              type="text"
+              value={contact.name}
+              onChange={(e) => setContact({ ...contact, name: e.target.value })}
+              className="border border-gray-400 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter your name"
+            />
+
+            <label className="text-sm font-semibold">Phone:</label>
+            <input
+              type="text"
+              value={contact.phone}
+              onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+              className="border border-gray-400 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter your phone number"
+            />
+
+            <label className="text-sm font-semibold">Address:</label>
+            <input
+              type="text"
+              value={contact.address}
+              onChange={(e) => setContact({ ...contact, address: e.target.value })}
+              className="border border-gray-400 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              placeholder="Enter your address"
+            />
           </div>
-        ) : (
-          ""
         )}
+
 
         {showPlaceOrder ? (
           <button
             onClick={handleSubmit}
-            className={`${
-              cart.length > 0
-                ? "bg-purple-500  shadow-purple-300 "
-                : "bg-black bg-opacity-30 shadow-gray-300 "
-            } mt-2 w-full h-fit relative overflow-hidden px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold transition-colors duration-300 group`}>
+            className={`${cart.length > 0
+              ? "bg-purple-500  shadow-purple-300 "
+              : "bg-black bg-opacity-30 shadow-gray-300 "
+              } mt-2 w-full h-fit relative overflow-hidden px-6 py-3 rounded-lg bg-purple-600 text-white font-semibold transition-colors duration-300 group`}>
             <span className="relative z-10 flex gap-4 justify-center items-center">
               {" "}
               Place Order

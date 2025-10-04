@@ -4,14 +4,14 @@ const order = require('../models/order');
 //to send order to the database from the user
 router.post('/postOrder', async (req, res) => {
     try {
-        const { items } = req.body;
+        const { items, customer } = req.body;
 
         if (!items || items.length === 0) {
             return res.status(400).json({ message: 'No items in order' });
         }
 
         // ✅ Create a new order with items only
-        const newOrder = new order({ items });
+        const newOrder = new order({ items, customer });
         await newOrder.save();
 
         console.log('Received Order:', newOrder);
