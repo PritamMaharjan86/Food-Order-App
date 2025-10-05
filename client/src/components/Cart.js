@@ -28,7 +28,7 @@ const Cart = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const orderData = { items: cart, status: "Pending" , customer:{name:contact.name, phone: contact.phone, address: contact.address,}};
+    const orderData = { items: cart, status: "Pending", customer: { name: contact.name, phone: contact.phone, address: contact.address, } };
     try {
       const res = await axios.post(
         "http://localhost:3001/api/order/postOrder",
@@ -55,7 +55,7 @@ const Cart = ({
 
   return (
     <div
-      className={`border border-purple-500 rounded-md fixed top-0 right-0 h-fit w-80 bg-white shadow-2xl shadow-purple-400 transform transition-transform duration-300 z-50 
+      className={`border border-purple-500 rounded-md fixed top-0 right-0 h-screen w-80 bg-white shadow-2xl shadow-purple-400 transform transition-transform duration-300 z-50 flex flex-col
     ${isCartOpen ? "translate-x-0" : "translate-x-full"}`}>
       <div className="p-4 flex justify-between items-center border-b border-purple-500 ">
         <h2 className="text-xl font-bold">Your Cart</h2>
@@ -64,7 +64,7 @@ const Cart = ({
         </button>
       </div>
 
-      <div className="p-4 overflow-y-auto h-[80%] ">
+      <div className="flex-1 overflow-y-auto p-4">
         {cart.length === 0 ? (
           <p>No items in cart</p>
         ) : (
@@ -122,6 +122,8 @@ const Cart = ({
           </span>
         </div>
 
+
+        {/* PROCCEED TO CHECKOUT BUTTON */}
         {showCheckout && cart.length > 0 ? (
           <button
             onClick={getDetail}
@@ -144,6 +146,7 @@ const Cart = ({
           ""
         )}
 
+        {/* CUSTOMER DETAIL SECTION */}
         {enterDetail && (
           <div className="flex flex-col gap-3 mt-4">
             <h4 className="font-bold text-lg mb-2">Contact Details</h4>
@@ -177,8 +180,9 @@ const Cart = ({
           </div>
         )}
 
+        {/* PLACE ORDER SECTION */}
+        { showPlaceOrder && enterDetail && contact.name && contact.address && contact.phone ? (
 
-        {showPlaceOrder ? (
           <button
             onClick={handleSubmit}
             className={`${cart.length > 0
@@ -189,15 +193,14 @@ const Cart = ({
               {" "}
               Place Order
             </span>
-            {enterDetail ? (
-              <span className="absolute inset-0 bg-purple-800 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
-            ) : (
-              ""
-            )}
+            <span className="absolute inset-0 bg-purple-800 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+
           </button>
         ) : (
           ""
         )}
+
+
       </div>
     </div>
   );

@@ -110,7 +110,7 @@ const Menu = () => {
     };
 
     return (
-        <div className="relative">
+        <div className="relative h-screen">
             <ToastContainer
                 position="top-center"
                 autoClose={200}
@@ -147,7 +147,7 @@ const Menu = () => {
                 setClicked={setClicked}
             />
 
-            <div className='flex justify-center items-center '>
+            <div className='flex justify-center items-center'>
                 <div className="relative w-5/6 ">
                     <button
                         onClick={() => scroll('left')}

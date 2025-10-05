@@ -51,7 +51,7 @@ const Admin = () => {
 
 
     return (
-        <div className="bg-white">
+        <div className="bg-white ">
             <button onClick={handleLogOff} className="border bg-red-600 p-1 rounded-lg m-2 text-white">Log Off</button>
             {orders.length > 0 ? (
                 <div className='bg-white'>
