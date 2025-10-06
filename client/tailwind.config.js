@@ -4,7 +4,15 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        // Fresh & Clean palette
+        primaryGreen: "#2F855A",
+        sand: "#F7EFE6",
+
+      },
+
+    },
   },
   plugins: [],
 }
