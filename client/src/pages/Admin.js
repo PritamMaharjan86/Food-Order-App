@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Admin = () => {
     const [orders, setOrders] = useState([]);
@@ -19,7 +20,8 @@ const Admin = () => {
 
         try {
             const response = await axios.delete(`http://localhost:3001/api/order/deleteOrder/${orderId}`);
-            alert(response.data.message);
+            toast.success(response.data.message);
+
             setOrders(prev => prev.filter(o => o._id !== orderId));
         } catch (err) {
             console.error("Failed to delete order", err);
@@ -51,61 +53,96 @@ const Admin = () => {
 
 
     return (
-        <div className="bg-white ">
-            <button onClick={handleLogOff} className="border bg-red-600 p-1 rounded-lg m-2 text-white">Log Off</button>
-            {orders.length > 0 ? (
-                <div className='bg-white'>
-                    {orders.map(order => (
-                        <div key={order._id} className='border-b py-2 m-2'>
-                            <p className={order.status === 'Pending' ? 'text-red-500' : 'text-green-500'}><strong>Status:</strong> {order.status}</p>
-                            {order.customer ? (
-                                <div className="mb-3">
-                                    <p><strong>Name:</strong> {order.customer.name}</p>
-                                    <p><strong>Phone:</strong> {order.customer.phone}</p>
-                                    <p><strong>Address:</strong> {order.customer.address}</p>
-                                </div>
-                            ) : (
-                                <p className="text-gray-500 italic">No customer info</p>
-                            )}
-                            <p><strong>Items:</strong></p>
-                            <ul>
-                                {order.items.map((food, index) => (
+        <div className="bg-black h-screen flex flex-row  ">
+            <ToastContainer />
+            {/* PROFILE SIDE */}
+            <div className="w-1/12">
+                <div className="flex flex-row m-4 gap-2 items-center ">
+                    <img className="w-5 h-5 rounded-md" src="https://res.cloudinary.com/dedpvue13/image/upload/v1759402409/ChatGPT_Image_Oct_2_2025_08_53_11_PM_yubwui.png"></img>
+                    <span className="text-white ">OrderNow</span>
+                </div>
 
-                                    <li key={food.id || index}>
-                                        {food.name} - {food.quantity}
-                                    </li>
+                <button onClick={handleLogOff} className="p-1 rounded-lg m-2 text-gray-300">Logout</button>
+            </div>
 
-                                ))}
-                            </ul>
+            {/* ORDER SIDE */}
+            <div className="bg-white w-11/12 rounded-lg h-screen overflow-y-auto ">
 
-                            <p><strong>Order Time:</strong> {new Date(order.createdAt).toLocaleTimeString()}</p>
-                            <p><strong>Order Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
-                            <p className="text-blue-500"><strong>Total Cost: ${order.items.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2)}  </strong></p>
-                            <button
-                                onClick={() => handleDelete(order._id)}
-                                className="p-1 rounded-md bg-red-600 text-white shadow-xl m-1 border "
-                            >
-                                Delete
-                            </button>
+                <h1 className="text-black font-semibold text-2xl fixed bg-white w-11/12 h-15 p-4 rounded-lg shadow-md">Orders</h1>
+                <div className="flex flex-row justify-between m-8 p-4 mt-20">
 
-                            {order.status === 'Pending' && (
-                                <button
-                                    className="bg-green-600 border rounded-md p-1 text-white"
-                                    onClick={() => handleDelivered(order._id)}
-                                >
-                                    Mark as Delivered
-                                </button>
-                            )}
+                    {orders.length > 0 ? (
+                        <table className="min-w-full border border-gray-300 rounded-xl overflow-hidden">
+                            <thead className="bg-gray-200 text-left">
+                                <tr>
+                                    <th className="py-3 px-4 border-b">Order ID</th>
+                                    <th className="py-3 px-4 border-b">Customer Name</th>
+                                    <th className="py-3 px-4 border-b">Phone</th>
+                                    <th className="py-3 px-4 border-b">Address</th>
+                                    <th className="py-3 px-4 border-b">Items</th>
+                                    <th className="py-3 px-4 border-b">Total Cost</th>
+                                    <th className="py-3 px-4 border-b">Status</th>
+                                    <th className="py-3 px-4 border-b">Date</th>
+                                    <th className="py-3 px-4 border-b text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {orders.map((order) => {
+                                    const total = order.items.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2);
+                                    return (
+                                        <tr key={order._id} className="hover:bg-gray-50 transition-all">
+                                            <td className="py-2 px-4 border-b text-sm">{order._id}</td>
+                                            <td className="py-2 px-4 border-b">{order.customer?.name || 'N/A'}</td>
+                                            <td className="py-2 px-4 border-b">{order.customer?.phone || 'N/A'}</td>
+                                            <td className="py-2 px-4 border-b">{order.customer?.address || 'N/A'}</td>
+                                            <td className="py-2 px-4 border-b">
+                                                <ul className="list-disc ml-4">
+                                                    {order.items.map((food, i) => (
+                                                        <li key={i}>
+                                                            {food.name} x {food.quantity}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </td>
+                                            <td className="py-2 px-4 border-b font-semibold">${total}</td>
+                                            <td className={`py-2 px-4 border-b text-white`}>
+                                                <span className={` px-3 py-1 rounded-lg ${order.status === 'Pending' ? 'bg-orange-500' : ' bg-blue-500'}`}>{order.status}</span>
+                                            </td>
+                                            <td className="py-2 px-4 border-b text-sm">
+                                                {new Date(order.createdAt).toLocaleDateString()}<br />
+                                                <span className="text-xs text-gray-500">{new Date(order.createdAt).toLocaleTimeString()}</span>
+                                            </td>
+                                            <td className="py-2 px-4 border-b text-center">
+                                                <div className="flex flex-col gap-2 items-center">
+                                                    <button
+                                                        onClick={() => handleDelete(order._id)}
+                                                        className="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1 rounded-md"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                    {order.status === 'Pending' && (
+                                                        <button
+                                                            onClick={() => handleDelivered(order._id)}
+                                                            className="bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded-md"
+                                                        >
+                                                            Deliver
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <div className="text-center py-20 text-gray-500 font-semibold text-xl">
+                            No orders found.
                         </div>
-                    ))}
+                    )}
                 </div>
-            ) : (
-                <div>
-                    <p className="text-white font-bold text-5xl items-center justify-center flex">
-                        No Orders left.
-                    </p>
-                </div>
-            )}
+            </div>
+
         </div>
     );
 };
