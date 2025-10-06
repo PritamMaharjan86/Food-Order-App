@@ -15,8 +15,8 @@ const Admin = () => {
     }, []);
 
     const handleDelete = async (orderId) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this order?");
-        if (!confirmDelete) return;
+        // const confirmDelete = window.confirm("Are you sure you want to delete this order?");
+        // if (!confirmDelete) return;
 
         try {
             const response = await axios.delete(`http://localhost:3001/api/order/deleteOrder/${orderId}`);
@@ -62,7 +62,7 @@ const Admin = () => {
                     <span className="text-white ">OrderNow</span>
                 </div>
 
-                <button onClick={handleLogOff} className="p-1 rounded-lg m-2 text-gray-300">Logout</button>
+                <button onClick={handleLogOff} className="p-1 rounded-lg m-2 text-gray-300 font-extralight">Logout</button>
             </div>
 
             {/* ORDER SIDE */}
@@ -136,8 +136,8 @@ const Admin = () => {
                             </tbody>
                         </table>
                     ) : (
-                        <div className="text-center py-20 text-gray-500 font-semibold text-xl">
-                            No orders found.
+                        <div className="text-center py-20 text-gray-500 font-semibold text-2xl">
+                            No Orders found
                         </div>
                     )}
                 </div>

@@ -110,7 +110,7 @@ const Menu = () => {
     };
 
     return (
-        <div className="relative h-screen">
+        <div className="relative h-screen bg-sand">
             <ToastContainer
                 position="top-center"
                 autoClose={200}
@@ -130,7 +130,7 @@ const Menu = () => {
                 <h2 className="font-bold text-black p-3 text-2xl uppercase">What's popping today!</h2>
                 <button onClick={toggleCart} className='p-4'>
                     <MdShoppingCart className='h-6 w-6 text-black ' />
-                    <p className='bg-purple-400 text-white flex justify-center items-center rounded-full w-4 h-4 font-medium translate-x-3 -translate-y-8 text-sm '>
+                    <p className='bg-primaryGreen text-white flex justify-center items-center rounded-full w-4 h-4 font-medium translate-x-3 -translate-y-8 text-sm '>
                         {cart.length}
                     </p>
                 </button>
@@ -148,17 +148,17 @@ const Menu = () => {
             />
 
             <div className='flex justify-center items-center'>
-                <div className="relative w-5/6 ">
+                <div className="relative w-5/6 p-4 ">
                     <button
                         onClick={() => scroll('left')}
-                        className="absolute -left-10 top-1/2 h-8 w-8 -translate-y-1/2 z-20 bg-purple-400/70 text-white rounded-full shadow hover:bg-purple-600"
+                        className="absolute -left-10 top-1/2 h-8 w-8 -translate-y-1/2 z-20 bg-black/40 text-white rounded-full shadow hover:bg-primaryGreen"
                     >
                         ◀
                     </button>
 
                     <button
                         onClick={() => scroll('right')}
-                        className="h-8 w-8 absolute -right-10 top-1/2 -translate-y-1/2 z-20 bg-purple-400/70 text-white rounded-full shadow hover:bg-purple-600"
+                        className="h-8 w-8 absolute -right-10 top-1/2 -translate-y-1/2 z-20 bg-black/40 text-white rounded-full shadow hover:bg-primaryGreen"
                     >
                         ▶
                     </button>
@@ -170,26 +170,26 @@ const Menu = () => {
                         {menu.map((item) => (
                             <li
                                 key={item.id}
-                                className="border border-gray-400 min-w-[220px] flex-shrink-0 snap-start flex flex-col bg-white rounded-sm p-3"
+                                className=" min-w-[220px] flex-shrink-0 snap-start flex flex-col bg-sand border border-green-800 shadow-xl shadow-sand rounded-md p-3"
                             >
                                 <img
                                     src={item.image}
                                     alt={item.name}
-                                    className="w-full h-28 rounded-sm shadow-xl object-cover"
+                                    className="w-full h-28 rounded-md shadow-xl object-cover"
                                 />
                                 <p className="text-black font-bold mt-3">{item.name}</p>
                                 <p className="text-black mt-5">${item.price}</p>
 
                                 {clicked.includes(item.id) ? (
                                     // Counter UI
-                                    <div className="flex justify-evenly items-center gap-5 h-12 border border-purple-500 flex-row rounded-md mt-2 bg-purple-500">
+                                    <div className="flex justify-evenly items-center gap-5 h-12 flex-row rounded-md mt-2 bg-primaryGreen shadow-lg shadow-green-800">
                                         <button
                                             className="text-white text-lg flex items-center ml-5 "
                                             onClick={() => handleAdd(item.id)}
                                         >
                                             <MdAdd />
                                         </button>
-                                        <span className="bg-white w-12 h-10 justify-center items-center flex rounded-md text-sm">
+                                        <span className="bg-sand w-12 h-10 justify-center items-center flex rounded-md text-sm">
                                             {cart.find((ci) => ci.id === item.id)?.quantity || 1}
                                         </span>
                                         <button
@@ -203,10 +203,10 @@ const Menu = () => {
                                     // Add to Cart Button
                                     <button
                                         onClick={() => handleCart(item)}
-                                        className="h-12 hover:bg-opacity-80 hover:shadow-lg hover:bg-purple-800 mt-2 shadow-md shadow-purple-400 bg-purple-500 text-white p-2 rounded-md justify-center flex items-center"
+                                        className="h-12 hover:bg-green-700 mt-2 shadow-lg shadow-green-900 bg-primaryGreen text-white p-2 rounded-md justify-center flex items-center"
                                     >
                                         {loading === item.id ? (
-                                            <Loader className="w-2 h-2 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                            <Loader className="w-2 h-2 border-2 border-cream border-t-transparent rounded-full animate-spin" />
                                         ) : (
                                             "Add to cart"
                                         )}
