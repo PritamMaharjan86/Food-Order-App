@@ -155,7 +155,7 @@ const Cart = ({
             <input
               type="text"
               value={contact.name}
-              onChange={(e) => setContact({ ...contact, name: e.target.value })}
+              onChange={(e) => setContact({ ...contact, name: e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1) })}
               className="border border-gray-400 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="Enter your name"
             />
@@ -173,7 +173,7 @@ const Cart = ({
             <input
               type="text"
               value={contact.address}
-              onChange={(e) => setContact({ ...contact, address: e.target.value })}
+              onChange={(e) => setContact({ ...contact, address: e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1) })}
               className="border border-gray-400 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="Enter your address"
             />
@@ -181,7 +181,7 @@ const Cart = ({
         )}
 
         {/* PLACE ORDER SECTION */}
-        { showPlaceOrder && enterDetail && contact.name && contact.address && contact.phone ? (
+        {showPlaceOrder && enterDetail && contact.name && contact.address && contact.phone ? (
 
           <button
             onClick={handleSubmit}
