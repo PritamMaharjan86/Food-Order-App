@@ -91,7 +91,7 @@ const Admin = () => {
                                     const total = order.items.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2);
                                     return (
                                         <tr key={order._id} className="hover:bg-gray-50 transition-all">
-                                            <td className="py-2 px-4 border-b text-sm">{order._id}</td>
+                                            <td className="py-2 px-4 border-b text-sm">{order.orderId}</td>
                                             <td className="py-2 px-4 border-b">{order.customer?.name || 'N/A'}</td>
                                             <td className="py-2 px-4 border-b">{order.customer?.phone || 'N/A'}</td>
                                             <td className="py-2 px-4 border-b">{order.customer?.address || 'N/A'}</td>

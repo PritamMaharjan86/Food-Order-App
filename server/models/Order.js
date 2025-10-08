@@ -10,6 +10,11 @@ const OrderSchema = new mongoose.Schema(
                 quantity: Number,
             }
         ],
+        orderId: {
+            type: String,
+            unique: true,
+
+        },
         customer: {
             name: { type: String, required: true },
             phone: { type: String, required: true },
@@ -20,6 +25,20 @@ const OrderSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
+
+OrderSchema.pre("save", async function (next) {
+    if (!this.orderId) {
+        try {
+            const count = await mongoose.model("order").countDocuments();
+            this.orderId = `ORD-${String(count + 1).padStart(5, "0")}`;
+            next();
+        } catch (err) {
+            next(err);
+        }
+    } else {
+        next();
+    }
+});
 
 
 module.exports = mongoose.model('order', OrderSchema);
