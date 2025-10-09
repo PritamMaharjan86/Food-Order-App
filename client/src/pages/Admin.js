@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { TbLogout2 } from "react-icons/tb";
+
 
 const Admin = () => {
     const [orders, setOrders] = useState([]);
@@ -22,7 +24,7 @@ const Admin = () => {
             const response = await axios.delete(`http://localhost:3001/api/order/deleteOrder/${orderId}`);
             toast.success(response.data.message);
 
-            setOrders(prev => prev.filter(o => o._id !== orderId));
+            setOrders(prev => prev.filter(order => order._id !== orderId));
         } catch (err) {
             console.error("Failed to delete order", err);
             alert("Failed to delete order");
@@ -35,7 +37,7 @@ const Admin = () => {
                 status: 'Delivered'
             });
             setOrders(prev =>
-                prev.map(o => o._id === orderId ? { ...o, status: 'Delivered' } : o)
+                prev.map(order => order._id === orderId ? { ...order, status: 'Delivered' } : order)
             );
         } catch (error) {
             console.error('Error updating order:', error);
@@ -56,13 +58,13 @@ const Admin = () => {
         <div className="bg-black h-screen flex flex-row  ">
             <ToastContainer />
             {/* PROFILE SIDE */}
-            <div className="w-1/12">
+            <div className="w-1/5">
                 <div className="flex flex-row m-4 gap-2 items-center ">
-                    <img className="w-5 h-5 rounded-md" src="https://res.cloudinary.com/dedpvue13/image/upload/v1759402409/ChatGPT_Image_Oct_2_2025_08_53_11_PM_yubwui.png"></img>
-                    <span className="text-white ">OrderNow</span>
+                    <img className="w-6 h-6 rounded-md" src="https://res.cloudinary.com/dedpvue13/image/upload/v1759402409/ChatGPT_Image_Oct_2_2025_08_53_11_PM_yubwui.png"></img>
+                    <span className="text-white text-xl ">OrderNow</span>
                 </div>
 
-                <button onClick={handleLogOff} className="p-1 rounded-lg m-2 text-gray-300 font-extralight">Logout</button>
+                <button onClick={handleLogOff} className="p-1 rounded-lg m-2 text-gray-300 font-extralight flex flex-row items-center gap-2 hover:bg-gray-100 hover:text-black"><TbLogout2 /> Logout</button>
             </div>
 
             {/* ORDER SIDE */}
@@ -76,11 +78,11 @@ const Admin = () => {
                             <thead className="bg-gray-200 text-left">
                                 <tr>
                                     <th className="py-3 px-4 border-b">Order ID</th>
-                                    <th className="py-3 px-4 border-b">Customer Name</th>
+                                    <th className="py-3 px-4 border-b">Customer</th>
                                     <th className="py-3 px-4 border-b">Phone</th>
                                     <th className="py-3 px-4 border-b">Address</th>
                                     <th className="py-3 px-4 border-b">Items</th>
-                                    <th className="py-3 px-4 border-b">Total Cost</th>
+                                    <th className="py-3 px-4 border-b">Total</th>
                                     <th className="py-3 px-4 border-b">Status</th>
                                     <th className="py-3 px-4 border-b">Date</th>
                                     <th className="py-3 px-4 border-b text-center">Actions</th>
@@ -99,7 +101,7 @@ const Admin = () => {
                                                 <ul className="list-disc ml-4">
                                                     {order.items.map((food, i) => (
                                                         <li key={i}>
-                                                            {food.name} x {food.quantity}
+                                                            {food.name} -- {food.quantity}
                                                         </li>
                                                     ))}
                                                 </ul>

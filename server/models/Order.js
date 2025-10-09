@@ -29,8 +29,9 @@ const OrderSchema = new mongoose.Schema(
 OrderSchema.pre("save", async function (next) {
     if (!this.orderId) {
         try {
-            const count = await mongoose.model("order").countDocuments();
-            this.orderId = `ORD-${String(count + 1).padStart(5, "0")}`;
+            const datePart = new Date().toISOString().replace(/[-:.TZ]/g, "").slice(0, 8);
+            const randomPart = Math.floor(100 + Math.random() * 900);
+            this.orderId = `ORD-${datePart}-${randomPart}`;
             next();
         } catch (err) {
             next(err);
