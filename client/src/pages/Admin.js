@@ -6,6 +6,7 @@ import { TbLogout2 } from "react-icons/tb";
 import { FiShoppingBag } from "react-icons/fi";
 import { RiDashboardLine } from "react-icons/ri";
 import Orders from "./Orders";
+import Dashboard from "./Dashboard";
 
 
 const Admin = () => {
@@ -60,7 +61,7 @@ const Admin = () => {
             <div className="w-64 flex flex-col justify-between ml-4">
                 <div>
                     <div className="flex flex-row m-4 gap-2 items-center">
-                        <img className="w-6 h-6 rounded-md" src="https://res.cloudinary.com/dedpvue13/image/upload/v1759402409/ChatGPT_Image_Oct_2_2025_08_53_11_PM_yubwui.png" alt="profile" />
+                        <img className="w-6 h-6 rounded-md border border-gray-200" src="https://res.cloudinary.com/dedpvue13/image/upload/v1759402409/ChatGPT_Image_Oct_2_2025_08_53_11_PM_yubwui.png" alt="profile" />
                         <span className="text-white text-xl">OrderNow</span>
                     </div>
 
@@ -102,6 +103,19 @@ const Admin = () => {
                         />
                     </>
                 )}
+
+                {activePage === 'dashboard' && (
+                    <>
+
+                        <Dashboard
+                            orders={orders}
+                        />
+                    </>
+                )
+
+
+
+                }
             </div>
         </div>
     );
