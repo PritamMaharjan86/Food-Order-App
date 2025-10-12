@@ -13,6 +13,7 @@ const Admin = () => {
     const [orders, setOrders] = useState([]);
     const [activePage, setActivePage] = useState('dashboard');
     const navigate = useNavigate();
+    const name = localStorage.getItem('loggedIn');
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/order/getOrder')
@@ -62,7 +63,7 @@ const Admin = () => {
                 <div>
                     <div className="flex flex-row m-4 gap-2 items-center">
                         <img className="w-6 h-6 rounded-md border border-gray-200" src="https://res.cloudinary.com/dedpvue13/image/upload/v1759402409/ChatGPT_Image_Oct_2_2025_08_53_11_PM_yubwui.png" alt="profile" />
-                        <span className="text-white text-xl">OrderNow</span>
+                        <span className="text-white text-xl">{name}</span>
                     </div>
 
 

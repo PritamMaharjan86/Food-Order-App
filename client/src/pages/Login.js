@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { MdOutlineAlternateEmail } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa6";
 import { TbLockPassword } from "react-icons/tb";
 import { BiHide, BiShowAlt } from "react-icons/bi";
 import Loader from '../components/Loader';
-
+import axios from 'axios';
 
 function Login() {
     const [showPassword, setShowPassword] = useState(false);
-    const [emailError, setEmailError] = useState(false);
-    const [validateEmail, setValidateEmail] = useState(false);
-    const [login, setLogin] = useState({ email: '', password: '' });
+    const [login, setLogin] = useState({ username: '', password: '' });
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
@@ -25,110 +23,71 @@ function Login() {
         const getLogin = { ...login };
         getLogin[id] = value;
         setLogin(getLogin);
-
-        if (id === 'email') {
-            validateEmailInput(value);
-        }
     };
 
-    useEffect(() => {
-        const savedEmail = localStorage.getItem('rememberedEmail');
 
-        if (savedEmail) {
-            setLogin((prev) => ({ ...prev, email: savedEmail }));
-
-        }
-    }, []);
-
-
-    const validateEmailInput = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email) {
-            setEmailError(false);
-            setValidateEmail(false);
-        } else if (emailRegex.test(email)) {
-            setEmailError(false);
-            setValidateEmail(true);
-        } else {
-            setEmailError(true);
-            setValidateEmail(false);
-        }
-    };
 
     const handleLogin = async (e) => {
-        setLoading(true);
         e.preventDefault();
-        const { email, password } = login;
+        setLoading(true);
 
-        if (!email || !password) {
-            toast.error("All the fields are required to be filled!");
-
-            return;
-        }
+        const { username, password } = login;
 
         try {
-            const url = 'https://signup-backend-2lfg.onrender.com/auth/login';
-            console.log('clicking')
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(login),
+            const res = await axios.post('http://localhost:3001/api/admin/login', {
+                username,
+                password,
             });
-            const result = await response.json();
-            const { success, jwtToken, name } = result;
-            if (success) {
-                toast.success("Access Granted");
 
-                setTimeout(() => {
-                    localStorage.setItem('token', jwtToken);
-                    localStorage.setItem('loggedIn', name);
-                    navigate('/admin');
+            const { token } = res.data;
+            toast.success(res.data.message);
+            setTimeout(() => {
+                localStorage.setItem('token', token);
+                localStorage.setItem('loggedIn', username);
+                navigate('/admin');
+                setLoading(false);
 
-                }, 1000);
+            }, 1000);
+
+        } catch (err) {
+            if (err.response) {
+                toast.error(err.response.data.message);
+
             } else {
-                if (result.errors && Array.isArray(result.errors)) {
-                    result.errors.forEach(msg => toast.error(msg));
-                } else if (result.message) {
-                    toast.warning(result.message);
-                } else {
-                    toast.error("Something went wrong. Please try again.");
-                }
+                toast.error('Something went wrong');
 
             }
-        } catch (err) {
-            toast.error("Something went wrong!");
-
         }
     };
 
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-purple-100 p-4">
+        <div className="min-h-screen flex items-center justify-center bg-sand p-4">
             {loading ? <Loader /> : ''}
-            <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-6 sm:p-10">
+            <div className="w-full max-w-md shadow-2xl shadow-black rounded-md p-6 sm:p-10">
 
                 <form className="w-full" onSubmit={handleLogin}>
-                    <h1 className="relative text-5xl font-light text-purple-400 mb-8 text-center sm:text-left">
+                    <h1 className="relative text-5xl font-extrabold text-primaryGreen mb-8 text-center sm:text-left">
                         Admin
                     </h1>
                     <div className="grid grid-cols-1 gap-6">
                         <ToastContainer />
                         <div className="relative w-full">
-                            <MdOutlineAlternateEmail
+                            <FaRegUser
                                 className="absolute inset-y-3.5 left-2 flex items-center text-gray-400"
-                                size={20}
+                                size={17}
                             />
                             <input
-                                className={`block w-full pl-8 border-b-4 p-2 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 ${emailError ? 'border-red-500' : validateEmail ? 'border-green-500' : 'border-gray-300'
+                                className={`block w-full pl-8 border-b-4 p-2 rounded-md shadow-sm focus:outline-none focus:border-primaryGreen 
                                     }`}
-                                type="email"
-                                id="email"
-                                placeholder="Enter your email"
+                                type="name"
+                                id="username"
+                                placeholder="Username"
+                                maxLength={10}
                                 onChange={handleChange}
-                                value={login.email}
+                                value={login.username}
                             />
-                            {emailError && <p className="text-red text-sm mt-1">Invalid email format</p>}
+
                         </div>
 
                         <div className="relative w-full">
@@ -137,11 +96,12 @@ function Login() {
                                 size={20}
                             />
                             <input
-                                className="block w-full pl-10 border-b-4 p-3 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 text-base"
+                                className="block w-full pl-10 border-b-4 p-3 rounded-md shadow-sm focus:outline-none  focus:border-primaryGreen text-base"
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
-                                placeholder="Enter your password"
+                                placeholder="Password"
                                 onChange={handleChange}
+                                maxLength={10}
                                 required
                                 autoComplete="current-password"
                             />
@@ -159,7 +119,7 @@ function Login() {
                         <div className="flex justify-center sm:justify-start ">
                             <button
                                 type="submit"
-                                className="bg-purple-400 text-white font-bold px-6 py-3 rounded-3xl shadow-lg flex items-center gap-2 hover:from-yellow-500 hover:to-yellow-600 transition"
+                                className="bg-primaryGreen text-gray-100 font-normal px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 hover:from-yellow-500 hover:to-yellow-600 transition"
                             >
                                 <span>Login</span>
                             </button>
