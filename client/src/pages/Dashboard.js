@@ -26,7 +26,7 @@ const Dashboard = ({ orders }) => {
                 <div className='border text-gray-600 border-blue-500 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-blue-300'>
                     <span className="text-3xl pt-2 "><IoBagHandle /></span>                    <p className=' font-bold text-xl'>Orders</p>
                     <p className=' font-medium text-xl'>{orders.length}</p>
-                    <p className='font-normal text-sm'>Total numbers of order recieved</p>
+                    <p className='font-normal text-sm'>Total order recieved</p>
                 </div>
                 <div className='border border-green-500 text-gray-600 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-green-300'>
                     <span className="text-3xl pt-2 "><IoIosMan /></span>
