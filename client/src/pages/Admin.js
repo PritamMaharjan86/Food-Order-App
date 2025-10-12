@@ -11,7 +11,7 @@ import Dashboard from "./Dashboard";
 
 const Admin = () => {
     const [orders, setOrders] = useState([]);
-    const [activePage, setActivePage] = useState(null);
+    const [activePage, setActivePage] = useState('dashboard');
     const navigate = useNavigate();
 
     useEffect(() => {
