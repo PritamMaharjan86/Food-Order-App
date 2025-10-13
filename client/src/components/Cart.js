@@ -166,11 +166,20 @@ const Cart = ({
 
             <label className="text-sm font-semibold">Phone:</label>
             <input
-              type="number"
-              maxLength={10}
+              type="text"
               value={contact.phone}
-              onChange={(e) => setContact({ ...contact, phone: e.target.value })}
-              className="border shadow-md border-gray-300  rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-800"
+              onChange={(e) => {
+                let value = e.target.value;
+
+                // Remove non-numeric characters
+                value = value.replace(/\D/g, "");
+
+                // Limit to 10 digits
+                if (value.length <= 10) {
+                  setContact({ ...contact, phone: value });
+                }
+              }}
+              className="border shadow-md border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-800"
               placeholder="Enter your phone number"
             />
 
@@ -181,6 +190,7 @@ const Cart = ({
               onChange={(e) => setContact({ ...contact, address: e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1) })}
               className="border shadow-md border-gray-300  rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-800"
               placeholder="Enter your address"
+              maxLength={10}
             />
           </div>
         )}

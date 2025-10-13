@@ -5,6 +5,7 @@ import { FiMinus } from "react-icons/fi";
 import Cart from '../components/Cart';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import Loader from '../components/Loader';
+import Banner from '../components/Banner';
 
 const Menu = () => {
     const [menu, setMenu] = useState([]);
@@ -127,7 +128,7 @@ const Menu = () => {
             />
 
             <div className='flex flex-row justify-between p-1'>
-                <h2 className="font-bold text-black p-3 text-2xl uppercase">What's popping today!</h2>
+                <h2 className="font-bold text-black p-3 text-2xl">OrderNow</h2>
                 <button onClick={toggleCart} className='p-4'>
                     <MdShoppingCart className='h-6 w-6 text-black ' />
                     <p className='bg-primaryGreen text-white flex justify-center items-center rounded-full w-4 h-4 font-medium translate-x-3 -translate-y-8 text-sm '>
@@ -147,6 +148,11 @@ const Menu = () => {
                 setClicked={setClicked}
             />
 
+
+            <Banner />
+
+            <h2 className="font-bold text-black p-3 text-2xl flex justify-center underline">What Trending Today!</h2>
+
             <div className='flex justify-center items-center'>
                 <div className="relative w-5/6 p-4 ">
                     <button
@@ -165,12 +171,12 @@ const Menu = () => {
 
                     <ul
                         ref={sliderRef}
-                        className="flex overflow-x-auto gap-6 p-4 scroll-smooth no-scrollbar "
+                        className="flex overflow-hidden  gap-6 p-4 scroll-smooth no-scrollbar "
                     >
                         {menu.map((item) => (
                             <li
                                 key={item.id}
-                                className=" min-w-[220px] flex-shrink-0 snap-start flex flex-col bg-sand border border-green-800 shadow-xl shadow-sand rounded-md p-3"
+                                className=" shadow-sm shadow-black min-w-[220px] flex-shrink-0 snap-start flex flex-col bg-sand border border-green-800 rounded-md p-3"
                             >
                                 <img
                                     src={item.image}

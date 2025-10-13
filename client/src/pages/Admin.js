@@ -46,6 +46,7 @@ const Admin = () => {
     };
 
     const handleLogOff = () => {
+        toast.success('Logging Off')
         localStorage.removeItem('token');
         localStorage.removeItem('loggedIn');
         setTimeout(() => {
