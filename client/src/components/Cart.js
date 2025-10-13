@@ -161,11 +161,13 @@ const Cart = ({
               onChange={(e) => setContact({ ...contact, name: e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1) })}
               className="border shadow-md border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-800"
               placeholder="Enter your name"
+              maxLength={10}
             />
 
             <label className="text-sm font-semibold">Phone:</label>
             <input
-              type="text"
+              type="number"
+              maxLength={10}
               value={contact.phone}
               onChange={(e) => setContact({ ...contact, phone: e.target.value })}
               className="border shadow-md border-gray-300  rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-green-800"

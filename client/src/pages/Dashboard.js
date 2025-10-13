@@ -8,13 +8,10 @@ const Dashboard = ({ orders }) => {
         return total + orderTotal;
     }, 0);
 
-    const productsSold = orders.reduce((total, order) => {
-        const totalProduct = order.items.reduce((sum, item) => sum + item.quantity, 0);
-        return total + totalProduct;
-    }, 0);
+    const delivered = orders.filter(order => order.status === 'Delivered' ).length;
 
     const totalCustomer = new Set(
-        orders.map(order => order.customer.name)
+        orders.map(order => order.customer.name && order.customer.address && order.customer.phone)
     ).size;
 
     return (
@@ -23,25 +20,25 @@ const Dashboard = ({ orders }) => {
                 Dashboard
             </h1>
             <div className='mt-20 m-10 flex flex-row justify-around gap-4'>
-                <div className='border text-gray-600 border-blue-500 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-blue-300'>
+                <div className='border shadow-xl text-gray-600 border-blue-500 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-blue-300'>
                     <span className="text-3xl pt-2 "><IoBagHandle /></span>                    <p className=' font-bold text-xl'>Orders</p>
                     <p className=' font-medium text-xl'>{orders.length}</p>
                     <p className='font-normal text-sm'>Total order recieved</p>
                 </div>
-                <div className='border border-green-500 text-gray-600 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-green-300'>
+                <div className='border shadow-xl border-green-500 text-gray-600 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-green-300'>
                     <span className="text-3xl pt-2 "><IoIosMan /></span>
                     <p className=' font-bold text-xl'>Customers</p>
                     <p className='font-medium text-xl'>{totalCustomer}</p>
                     <p className=' font-normal text-sm'>Numbers of customer</p>
                 </div>
-                <div className='border text-gray-600 border-purple-500 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-purple-300'>
-                    <span className="text-3xl pt-2 "><IoMdCart /></span>                    <p className=' font-bold text-xl'>Products Sold</p>
-                    <p className='font-medium text-xl'>{productsSold}</p>
+                <div className='border shadow-xl text-gray-600 border-purple-500 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-purple-300'>
+                    <span className="text-3xl pt-2 "><IoMdCart /></span>                    <p className=' font-bold text-xl'>Delivered</p>
+                    <p className='font-medium text-xl'>{delivered}</p>
                     <p className=' font-normal text-sm'>Overall products sold</p>
                 </div>
 
-                <div className='border text-gray-600 border-red-500 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-red-300'>
-                    <span className="text-3xl pt-2 "><IoBarChart /></span>                    <p className=' font-bold text-xl'>Total Sales</p>
+                <div className='border shadow-xl text-gray-600 border-red-500 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-red-300'>
+                    <span className="text-3xl pt-2 "><IoBarChart /></span>                    <p className=' font-bold text-xl'>Sales</p>
                     <p className=' font-medium text-xl'>${totalSales.toFixed(2)}</p>
                     <p className=' font-normal text-sm'>Total income earned</p>
                 </div>
