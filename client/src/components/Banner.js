@@ -2,7 +2,7 @@ import React from 'react'
 
 const Banner = () => {
     return (
-        <div class="relative w-full h-[400px] md:h-[500px] rounded-lg overflow-hidden shadow-lg">
+        <div class="relative w-full h-[400px] md:h-[500px] overflow-hidden shadow-lg">
 
             <img
                 src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1200&q=80"

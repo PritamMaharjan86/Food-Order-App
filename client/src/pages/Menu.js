@@ -111,7 +111,7 @@ const Menu = () => {
     };
 
     return (
-        <div className="relative h-screen bg-sand">
+        <div className="relative h-full bg-sand">
             <ToastContainer
                 position="top-center"
                 autoClose={200}
@@ -128,7 +128,7 @@ const Menu = () => {
             />
 
             <div className='flex flex-row justify-between p-1'>
-                <h2 className="font-bold text-black p-3 text-2xl">OrderNow</h2>
+                <h2 className="font-bold text-primaryGreen p-2 m-5 rounded-xl shadow-xl border-primaryGreen border shadow-gray-400 text-2xl bg-sand">OrderNow</h2>
                 <button onClick={toggleCart} className='p-4'>
                     <MdShoppingCart className='h-6 w-6 text-black ' />
                     <p className='bg-primaryGreen text-white flex justify-center items-center rounded-full w-4 h-4 font-medium translate-x-3 -translate-y-8 text-sm '>
