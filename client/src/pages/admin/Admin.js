@@ -5,8 +5,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import { TbLogout2 } from "react-icons/tb";
 import { FiShoppingBag } from "react-icons/fi";
 import { RiDashboardLine } from "react-icons/ri";
+import { BsBoxSeam } from "react-icons/bs";
 import Orders from "./Orders";
 import Dashboard from "./Dashboard";
+import Products from "./Products";
 
 
 const Admin = () => {
@@ -82,6 +84,13 @@ const Admin = () => {
                     >
                         <FiShoppingBag /> Orders
                     </button>
+
+                    <button
+                        onClick={() => setActivePage('products')}
+                        className={`p-2 w-3/4 rounded-lg m-2 text-gray-300 font-thin flex flex-row items-center gap-3  hover:bg-gray-100 hover:text-black ${activePage === 'products' ? 'text-gray-800 bg-white ' : ''}`}
+                    >
+                        <BsBoxSeam /> Products
+                    </button>
                 </div>
 
                 <div className="mb-6 ">
@@ -113,11 +122,14 @@ const Admin = () => {
                             orders={orders}
                         />
                     </>
-                )
+                )}
 
+                {activePage === 'products' && (
+                    <>
 
-
-                }
+                        <Products />
+                    </>
+                )}
             </div>
         </div>
     );

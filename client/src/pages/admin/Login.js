@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FaRegUser } from "react-icons/fa6";
 import { TbLockPassword } from "react-icons/tb";
 import { BiHide, BiShowAlt } from "react-icons/bi";
-import Loader from '../components/Loader';
+import Loader from '../../components/Loader';
 import axios from 'axios';
 
 function Login() {

@@ -1,6 +1,6 @@
 import Menu from "../pages/Menu"
-import Admin from "../pages/Admin";
-import Login from "../pages/Login";
+import Admin from "../pages/admin/Admin";
+import Login from "../pages/admin/Login";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import RefreshHandler from "../components/RefreshHandler";
