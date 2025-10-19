@@ -1,17 +1,39 @@
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
+const Menu = require('../models/menu');
 
-router.get('/menu', (req, res) => {
-    res.json([
-        { id: 1, name: 'Beef Burger', price: 8.99, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHp64n-eLrDSrY29_HCRIuP7-p89ndb18ezw&s' },
-        { id: 2, name: 'Peperoni Pizza', price: 12.99, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjxKRzb98k-hNThaEfqVkSxXpCGPyGoGeE8A&s' },
-        { id: 3, name: 'French Fries', price: 6.99, image: 'https://sausagemaker.com/wp-content/uploads/Homemade-French-Fries_8.jpg' },
-        { id: 4, name: 'Buff Noodles', price: 16.49, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpDz4-GZI5EPxY_2Q-d_HnCANSJ42Cf6EFWg&s' },
-        { id: 5, name: 'Chicken Momo', price: 26.19, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMJo0RNeX_bMirOJW57pF62n23ciRRe7Jwlg&s' },
-        { id: 6, name: 'Pork Fried Rice', price: 12.39, image: 'https://fullofplants.com/wp-content/uploads/2020/05/sweet-and-sour-spicy-thai-fried-rice-easy-vegan-meal-with-vegetables-thumb.jpg' },
-        { id: 7, name: 'Chilly Chicken', price: 16.69, image: 'https://notacurry.com/wp-content/uploads/2021/01/garlic-chicken-recipe-china-town-style.jpg' },
-        { id: 8, name: 'BBQ Buffalo Wings', price: 18.90, image: 'https://www.thecookierookie.com/wp-content/uploads/2024/02/bbq-chicken-wings-recipe-featured-image.jpg' },
 
-    ]);
+//to get menu items
+router.get('/', async (req, res) => {
+
+    try {
+        const menu = await Menu.find();
+        res.json(menu);
+
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        })
+    }
+});
+
+//to post menu to database
+router.post('/', async (res, req) => {
+
+    try {
+        const newItem = new Menu({
+            name: req.body.name,
+            price: req.body.price,
+            image: req.body.image,
+        });
+
+        const savedItem = await newItem.save();
+        res.status(201).json(savedItem);
+    } catch (err) {
+
+        res.status(400).json({ message: err.message })
+    }
 })
+
 
 module.exports = router;

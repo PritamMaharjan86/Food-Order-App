@@ -5,8 +5,9 @@ import { IoMdAdd } from "react-icons/io";
 
 const Products = () => {
     const [menu, setMenu] = useState([]);
+    const [newItem, setNewItem] = useState({ name: '', price: '', image: '' })
 
-
+    //get menu item 
     useEffect(() => {
         axios.get('http://localhost:3001/api/menu')
             .then((res) => setMenu(res.data))
@@ -14,11 +15,68 @@ const Products = () => {
     }, []);
 
 
+    //to add new item
+    const handleAdd = async () => {
+
+        if (!newItem.name || !newItem.price || !newItem.image) {
+            alert('Please include all details of new item!');
+            return;
+
+        }
+
+        try {
+            const res = await axios.post('http://localhost:3001/api/menu', newItem);
+            setMenu([...menu, res.data]);
+            setNewItem({
+                name: '',
+                price: '',
+                image: '',
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <>
             <h1 className="text-black font-semibold text-2xl fixed bg-white w-11/12 h-15 p-4 rounded-lg shadow-md">
                 Products
             </h1>
+
+            <div className="bg-gray-100 p-4 rounded-lg mb-6 shadow-md">
+                <h2 className="text-xl font-semibold mb-3">Add New Menu Item</h2>
+                <div className="flex flex-col gap-2 md:flex-row">
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        value={newItem.name}
+                        onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                        className="border p-2 rounded w-full"
+                    />
+                    <input
+                        type="number"
+                        placeholder="Price"
+                        value={newItem.price}
+                        onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
+                        className="border p-2 rounded w-full"
+                    />
+                    <input
+                        type="text"
+                        placeholder="Image URL"
+                        value={newItem.image}
+                        onChange={(e) => setNewItem({ ...newItem, image: e.target.value })}
+                        className="border p-2 rounded w-full"
+                    />
+                    <button
+                        onClick={handleAdd}
+                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                    >
+                        Add
+                    </button>
+                </div>
+            </div>
+
+
             <div className='mt-20 flex justify-end mr-5'>
                 <button className='shadow-xl flex-row flex items-center gap-1 shadow-gray-300 bg-green-500 w-fit text-gray-100 py-1 rounded-lg px-3'> <IoMdAdd />
                     Add</button>

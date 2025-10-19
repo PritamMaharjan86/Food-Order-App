@@ -14,7 +14,7 @@ require('./models/database');
 
 
 const menuRouter = require('./routes/menuRoute');
-app.use('/api', menuRouter);
+app.use('/api/menu', menuRouter);
 
 
 const orderRouter = require('./routes/orderRoute');
