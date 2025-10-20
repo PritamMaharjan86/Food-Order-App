@@ -32,6 +32,7 @@ const Products = () => {
                 price: '',
                 image: '',
             })
+            setNewItem('');
         } catch (err) {
             console.log(err);
         }

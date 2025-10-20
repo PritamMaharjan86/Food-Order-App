@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 });
 
 //to post menu to database
-router.post('/', async (res, req) => {
+router.post('/', async (req, res) => {
 
     try {
         const newItem = new Menu({

@@ -42,4 +42,4 @@ OrderSchema.pre("save", async function (next) {
 });
 
 
-module.exports = mongoose.model('order', OrderSchema);
+module.exports = mongoose.model('Order', OrderSchema);
