@@ -9,7 +9,7 @@ const Products = () => {
 
     //get menu item 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/menu')
+        axios.get('http://localhost:3001/api/product')
             .then((res) => setMenu(res.data))
             .catch((err) => console.error('Error fetching menu data', err));
     }, []);
@@ -25,7 +25,7 @@ const Products = () => {
         }
 
         try {
-            const res = await axios.post('http://localhost:3001/api/menu', newItem);
+            const res = await axios.post('http://localhost:3001/api/product', newItem);
             setMenu([...menu, res.data]);
             setNewItem({
                 name: '',
@@ -36,6 +36,20 @@ const Products = () => {
         } catch (err) {
             console.log(err);
         }
+    }
+
+
+    //to delete 
+    const handleDelete = async (id) => {
+        try {
+            const res = await axios.delete(`http://localhost:3001/api/product/${id}`);
+            setMenu(menu.filter(item => item._id !== id)); //remove it from UI
+
+        } catch (err) {
+            console.error(err);
+
+        }
+
     }
 
     return (
@@ -105,7 +119,7 @@ const Products = () => {
                                 <td className="py-2 px-4 border-b border-gray-300 "> <img src={item.image} className='w-24 rounded-lg h-fit' /> </td>
                                 <td className="py-2 px-4 border-b border-gray-300 ">
                                     <div className='flex flex-row gap-2 '>
-                                        <button className=' bg-red-500 w-1/4 text-gray-200 py-1 rounded-lg px-3'>Delete</button>
+                                        <button className=' bg-red-500 w-1/4 text-gray-200 py-1 rounded-lg px-3' onClick={handleDelete}>Delete</button>
                                         <button className=' bg-blue-500 w-1/4 text-gray-200 py-1 rounded-lg px-3'>Edit</button>
                                     </div>
                                 </td>

@@ -13,8 +13,8 @@ require('dotenv').config();
 require('./models/database');
 
 
-const menuRouter = require('./routes/menuRoute');
-app.use('/api/menu', menuRouter);
+const productRouter = require('./routes/productRoute');
+app.use('/api/product', productRouter);
 
 
 const orderRouter = require('./routes/orderRoute');
