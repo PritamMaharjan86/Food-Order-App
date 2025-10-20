@@ -4,7 +4,7 @@ const Product = require('../models/product');
 
 
 //to get menu items
-router.get('/', async (req, res) => {
+router.get('/getProduct', async (req, res) => {
 
     try {
         const menu = await Product.find();
@@ -18,11 +18,10 @@ router.get('/', async (req, res) => {
 });
 
 //to post menu to database
-router.post('/', async (req, res) => {
+router.post('/postProduct', async (req, res) => {
 
     try {
         const newItem = new Product({
-            id: req.body.id,
             name: req.body.name,
             price: req.body.price,
             image: req.body.image,
@@ -36,10 +35,10 @@ router.post('/', async (req, res) => {
     }
 })
 
-// to delete a menu item by ID
-router.delete('/:id', async (req, res) => {
+// to delete a menu item by name
+router.delete('/:name', async (req, res) => {
     try {
-        const deletedItem = await Product.findByIdAndDelete(req.params.id);
+        const deletedItem = await Product.findOneAndDelete({name: req.params.name});
 
         if (!deletedItem) {
             return res.status(404).json({ message: 'Item not found' });

@@ -9,7 +9,7 @@ const Products = () => {
 
     //get menu item 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/product')
+        axios.get('http://localhost:3001/api/product/getProduct')
             .then((res) => setMenu(res.data))
             .catch((err) => console.error('Error fetching menu data', err));
     }, []);
@@ -25,7 +25,7 @@ const Products = () => {
         }
 
         try {
-            const res = await axios.post('http://localhost:3001/api/product', newItem);
+            const res = await axios.post('http://localhost:3001/api/product/postProduct', newItem);
             setMenu([...menu, res.data]);
             setNewItem({
                 name: '',
@@ -40,17 +40,18 @@ const Products = () => {
 
 
     //to delete 
-    const handleDelete = async (id) => {
-        try {
-            const res = await axios.delete(`http://localhost:3001/api/product/${id}`);
-            setMenu(menu.filter(item => item._id !== id)); //remove it from UI
+    const handleDelete = async (name) => {
 
+        try {
+            await axios.delete(`http://localhost:3001/api/product/${name}`);
+            setMenu(menu.filter(item => item.name !== name));
+            alert("Item deleted successfully!");
         } catch (err) {
             console.error(err);
-
+            alert("Error deleting item");
         }
+    };
 
-    }
 
     return (
         <>
@@ -58,7 +59,7 @@ const Products = () => {
                 Products
             </h1>
 
-            <div className="bg-gray-100 p-4 rounded-lg mb-6 shadow-md">
+            <div className="bg-gray-100 rounded-lg mb-6 shadow-md mt-14 p-8">
                 <h2 className="text-xl font-semibold mb-3">Add New Menu Item</h2>
                 <div className="flex flex-col gap-2 md:flex-row">
                     <input
@@ -91,11 +92,6 @@ const Products = () => {
                 </div>
             </div>
 
-
-            <div className='mt-20 flex justify-end mr-5'>
-                <button className='shadow-xl flex-row flex items-center gap-1 shadow-gray-300 bg-green-500 w-fit text-gray-100 py-1 rounded-lg px-3'> <IoMdAdd />
-                    Add</button>
-            </div>
             <div className='flex flex-row justify-between p-4'>
 
                 <table className='text-black min-w-full border border-gray-300 rounded-xl overflow-hidden'>
@@ -119,7 +115,12 @@ const Products = () => {
                                 <td className="py-2 px-4 border-b border-gray-300 "> <img src={item.image} className='w-24 rounded-lg h-fit' /> </td>
                                 <td className="py-2 px-4 border-b border-gray-300 ">
                                     <div className='flex flex-row gap-2 '>
-                                        <button className=' bg-red-500 w-1/4 text-gray-200 py-1 rounded-lg px-3' onClick={handleDelete}>Delete</button>
+                                        <button
+                                            className="bg-red-500 w-1/4 text-gray-200 py-1 rounded-lg px-3"
+                                            onClick={() => handleDelete(item.name)}
+                                        >
+                                            Delete
+                                        </button>
                                         <button className=' bg-blue-500 w-1/4 text-gray-200 py-1 rounded-lg px-3'>Edit</button>
                                     </div>
                                 </td>
