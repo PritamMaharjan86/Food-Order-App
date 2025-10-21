@@ -32,7 +32,6 @@ const Products = () => {
                 price: '',
                 image: '',
             })
-            setNewItem('');
         } catch (err) {
             console.log(err);
         }
@@ -59,35 +58,35 @@ const Products = () => {
                 Products
             </h1>
 
-            <div className="bg-gray-100 rounded-lg mb-6 shadow-md mt-14 p-8">
-                <h2 className="text-xl font-semibold mb-3">Add New Menu Item</h2>
+            <div className="bg-gray-200 rounded-lg shadow-md mt-20 p-4 ml-14 mr-14 ">
+                <h2 className="text-xl font-semibold mb-3">Add New Product</h2>
                 <div className="flex flex-col gap-2 md:flex-row">
                     <input
                         type="text"
                         placeholder="Name"
                         value={newItem.name}
-                        onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                        className="border p-2 rounded w-full"
+                        onChange={(e) => setNewItem({ ...newItem, name: e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1) })}
+                        className="border p-2 rounded-xl w-full"
                     />
                     <input
                         type="number"
                         placeholder="Price"
                         value={newItem.price}
                         onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded-xl w-full"
                     />
                     <input
                         type="text"
                         placeholder="Image URL"
                         value={newItem.image}
                         onChange={(e) => setNewItem({ ...newItem, image: e.target.value })}
-                        className="border p-2 rounded w-full"
+                        className="border p-2 rounded-xl w-full"
                     />
                     <button
                         onClick={handleAdd}
-                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                        className="bg-green-600 text-white px-4 rounded-xl hover:bg-green-700 flex flex-row items-center gap-1"
                     >
-                        Add
+                        <IoMdAdd /> Add
                     </button>
                 </div>
             </div>
@@ -97,7 +96,6 @@ const Products = () => {
                 <table className='text-black min-w-full border border-gray-300 rounded-xl overflow-hidden'>
                     <thead className='bg-gray-200 text-left'>
                         <tr>
-                            <th className='py-3 px-4 border-b border-gray-300'>Id</th>
                             <th className='py-3 px-4 border-b border-gray-300'>Name</th>
                             <th className='py-3 px-4 border-b border-gray-300'>Price</th>
                             <th className='py-3 px-4 border-b border-gray-300'>Image</th>
@@ -109,9 +107,8 @@ const Products = () => {
                         {menu.map((item) => (
 
                             <tr className="hover:bg-gray-200 transition-all ">
-                                <td className="py-2 px-4 border-b border-gray-300 "> {item.id} </td>
                                 <td className="py-2 px-4 border-b border-gray-300 "> {item.name} </td>
-                                <td className="py-2 px-4 border-b border-gray-300"> {item.price} </td>
+                                <td className="py-2 px-4 border-b border-gray-300"> ${item.price} </td>
                                 <td className="py-2 px-4 border-b border-gray-300 "> <img src={item.image} className='w-24 rounded-lg h-fit' /> </td>
                                 <td className="py-2 px-4 border-b border-gray-300 ">
                                     <div className='flex flex-row gap-2 '>

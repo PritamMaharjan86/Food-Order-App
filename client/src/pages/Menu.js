@@ -41,7 +41,7 @@ const Menu = () => {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/product')
+        axios.get('http://localhost:3001/api/product/getProduct')
             .then((res) => setMenu(res.data))
             .catch((err) => console.error(err));
     }, []);
