@@ -36,9 +36,9 @@ router.post('/postProduct', async (req, res) => {
 })
 
 // to delete a menu item by name
-router.delete('/:name', async (req, res) => {
+router.delete('/delete/:name', async (req, res) => {
     try {
-        const deletedItem = await Product.findOneAndDelete({name: req.params.name});
+        const deletedItem = await Product.findOneAndDelete({ name: req.params.name });
 
         if (!deletedItem) {
             return res.status(404).json({ message: 'Item not found' });
@@ -49,7 +49,6 @@ router.delete('/:name', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-
 
 
 module.exports = router;

@@ -1,18 +1,23 @@
 import { IoIosMan, IoMdCart } from "react-icons/io";
-import { IoBarChart, IoBagHandle } from "react-icons/io5";
+import { IoBarChart, IoBagHandle,IoFastFoodSharp } from "react-icons/io5";
 
-const Dashboard = ({ orders }) => {
+
+const Dashboard = ({ orders, product }) => {
 
     const totalSales = orders.reduce((total, order) => {
         const orderTotal = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
         return total + orderTotal;
     }, 0);
 
-    const delivered = orders.filter(order => order.status === 'Delivered' ).length;
+    const delivered = orders.filter(order => order.status === 'Delivered').length;
 
     const totalCustomer = new Set(
         orders.map(order => order.customer.name && order.customer.address && order.customer.phone)
     ).size;
+
+    const totalProducts = new Set(product?.map(p => p.name) || []).size;
+
+
 
     return (
         <>
@@ -41,6 +46,12 @@ const Dashboard = ({ orders }) => {
                     <span className="text-3xl pt-2 "><IoBarChart /></span>                    <p className=' font-bold text-xl'>Sales</p>
                     <p className=' font-medium text-xl'>${totalSales.toFixed(2)}</p>
                     <p className=' font-normal text-sm'>Total income earned</p>
+                </div>
+
+                <div className='border shadow-xl text-gray-600 border-yellow-500 w-1/4 p-2 h-1/5 rounded-lg flex flex-col gap-4 items-center bg-yellow-300'>
+                    <span className="text-3xl pt-2 "><IoFastFoodSharp /></span>                    <p className=' font-bold text-xl'>Products</p>
+                    <p className=' font-medium text-xl'>{totalProducts}</p>
+                    <p className=' font-normal text-sm'>Active products on website</p>
                 </div>
 
             </div>

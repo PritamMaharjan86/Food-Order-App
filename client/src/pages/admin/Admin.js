@@ -16,11 +16,19 @@ const Admin = () => {
     const [activePage, setActivePage] = useState('dashboard');
     const navigate = useNavigate();
     const name = localStorage.getItem('loggedIn');
+    const [product, setProduct] = useState();
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/order/getOrder')
             .then(res => setOrders(res.data))
             .catch(err => console.error(err));
+    }, []);
+
+    //get menu item 
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/product/getProduct')
+            .then((res) => setProduct(res.data))
+            .catch((err) => console.error('Error fetching menu data', err));
     }, []);
 
     const handleDelete = async (orderId) => {
@@ -120,6 +128,7 @@ const Admin = () => {
 
                         <Dashboard
                             orders={orders}
+                            product={product}
                         />
                     </>
                 )}

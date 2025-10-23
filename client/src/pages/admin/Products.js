@@ -3,6 +3,7 @@ import axios from 'axios';
 import { IoMdAdd } from "react-icons/io";
 
 
+
 const Products = () => {
     const [menu, setMenu] = useState([]);
     const [newItem, setNewItem] = useState({ name: '', price: '', image: '' })
@@ -42,7 +43,7 @@ const Products = () => {
     const handleDelete = async (name) => {
 
         try {
-            await axios.delete(`http://localhost:3001/api/product/${name}`);
+            await axios.delete(`http://localhost:3001/api/product/delete/${name}`);
             setMenu(menu.filter(item => item.name !== name));
             alert("Item deleted successfully!");
         } catch (err) {
