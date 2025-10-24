@@ -22,7 +22,6 @@ router.post('/postProduct', async (req, res) => {
 
     try {
         const newItem = new Product({
-            id: req.body.id,
             name: req.body.name,
             price: req.body.price,
             image: req.body.image,
@@ -36,10 +35,10 @@ router.post('/postProduct', async (req, res) => {
     }
 })
 
-// to delete a menu item by name
-router.delete('/delete/:name', async (req, res) => {
+// to delete a menu item by productID
+router.delete('/delete/:productId', async (req, res) => {
     try {
-        const deletedItem = await Product.findOneAndDelete({ name: req.params.name });
+        const deletedItem = await Product.findOneAndDelete({ productId: req.params.productId });
 
         if (!deletedItem) {
             return res.status(404).json({ message: 'Item not found' });

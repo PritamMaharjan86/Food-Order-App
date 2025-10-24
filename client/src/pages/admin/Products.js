@@ -40,11 +40,11 @@ const Products = () => {
 
 
     //to delete 
-    const handleDelete = async (name) => {
+    const handleDelete = async (productId) => {
 
         try {
-            await axios.delete(`http://localhost:3001/api/product/delete/${name}`);
-            setMenu(menu.filter(item => item.name !== name));
+            await axios.delete(`http://localhost:3001/api/product/delete/${productId}`);
+            setMenu(menu.filter(item => item.productId !== productId));
             alert("Item deleted successfully!");
         } catch (err) {
             console.error(err);
@@ -117,7 +117,7 @@ const Products = () => {
                                     <div className='flex flex-row gap-2 '>
                                         <button
                                             className="bg-red-500 w-1/4 text-gray-200 py-1 rounded-lg px-3"
-                                            onClick={() => handleDelete(item.name)}
+                                            onClick={() => handleDelete(item.productId)}
                                         >
                                             Delete
                                         </button>
