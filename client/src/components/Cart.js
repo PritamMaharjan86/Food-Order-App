@@ -88,7 +88,7 @@ const Cart = ({
                   <div className="flex gap-5 border border-primaryGreen h-8 flex-row rounded-md mt-4 bg-primaryGreen">
                     <button
                       className="text-sand text-lg flex items-center ml-5"
-                      onClick={() => handleAdd(item.id)}>
+                      onClick={() => handleAdd(item.productId)}>
                       <MdAdd />
                     </button>
                     <span className="bg-sand w-8 justify-center flex rounded-md items-center text-sm">
@@ -96,13 +96,13 @@ const Cart = ({
                     </span>
                     <button
                       className="text-sand text-lg flex items-center mr-5 "
-                      onClick={() => handleRemove(item.id)}>
+                      onClick={() => handleRemove(item.productId)}>
                       <FiMinus />
                     </button>
                   </div>
                   <button
                     className="justify-end flex mt-4 ml-4"
-                    onClick={() => removeFromCart(item.id)}>
+                    onClick={() => removeFromCart(item.productId)}>
                     <MdDeleteForever className="w-6 h-6 text-red-500" />
                   </button>
                 </div>

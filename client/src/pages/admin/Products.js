@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { IoMdAdd } from "react-icons/io";
-
-
+import { ToastContainer, toast } from 'react-toastify';
 
 const Products = () => {
     const [menu, setMenu] = useState([]);
@@ -45,7 +44,7 @@ const Products = () => {
         try {
             await axios.delete(`http://localhost:3001/api/product/delete/${productId}`);
             setMenu(menu.filter(item => item.productId !== productId));
-            alert("Item deleted successfully!");
+            toast.success("Item deleted");
         } catch (err) {
             console.error(err);
             alert("Error deleting item");
@@ -55,6 +54,7 @@ const Products = () => {
 
     return (
         <>
+            <ToastContainer />
             <h1 className="text-black font-semibold text-2xl fixed bg-white w-11/12 h-15 p-4 rounded-lg shadow-md">
                 Products
             </h1>
