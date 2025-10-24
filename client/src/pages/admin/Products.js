@@ -97,6 +97,7 @@ const Products = () => {
                 <table className='text-black min-w-full border border-gray-300 rounded-xl overflow-hidden'>
                     <thead className='bg-gray-200 text-left'>
                         <tr>
+                            <th className='py-3 px-4 border-b border-gray-300'>Id</th>
                             <th className='py-3 px-4 border-b border-gray-300'>Name</th>
                             <th className='py-3 px-4 border-b border-gray-300'>Price</th>
                             <th className='py-3 px-4 border-b border-gray-300'>Image</th>
@@ -108,6 +109,7 @@ const Products = () => {
                         {menu.map((item) => (
 
                             <tr className="hover:bg-gray-200 transition-all ">
+                                <td className="py-2 px-4 border-b border-gray-300 "> {item.productId} </td>
                                 <td className="py-2 px-4 border-b border-gray-300 "> {item.name} </td>
                                 <td className="py-2 px-4 border-b border-gray-300"> ${item.price} </td>
                                 <td className="py-2 px-4 border-b border-gray-300 "> <img src={item.image} className='w-24 rounded-lg h-fit' /> </td>
