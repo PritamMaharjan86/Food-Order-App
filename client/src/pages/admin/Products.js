@@ -97,7 +97,7 @@ const Products = () => {
                 <table className='text-black min-w-full border border-gray-300 rounded-xl overflow-hidden'>
                     <thead className='bg-gray-200 text-left'>
                         <tr>
-                            <th className='py-3 px-4 border-b border-gray-300'>Id</th>
+                            <th className='py-3 px-4 border-b border-gray-300'>Product Id</th>
                             <th className='py-3 px-4 border-b border-gray-300'>Name</th>
                             <th className='py-3 px-4 border-b border-gray-300'>Price</th>
                             <th className='py-3 px-4 border-b border-gray-300'>Image</th>

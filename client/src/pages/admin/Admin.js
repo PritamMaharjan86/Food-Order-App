@@ -6,9 +6,11 @@ import { TbLogout2 } from "react-icons/tb";
 import { FiShoppingBag } from "react-icons/fi";
 import { RiDashboardLine } from "react-icons/ri";
 import { BsBoxSeam } from "react-icons/bs";
+import { IoPersonOutline } from "react-icons/io5";
 import Orders from "./Orders";
 import Dashboard from "./Dashboard";
 import Products from "./Products";
+import Customers from "./Customers";
 
 
 const Admin = () => {
@@ -99,6 +101,13 @@ const Admin = () => {
                     >
                         <BsBoxSeam /> Products
                     </button>
+
+                    <button
+                        onClick={() => setActivePage('customers')}
+                        className={`p-2 w-3/4 rounded-lg m-2 text-gray-300 font-thin flex flex-row items-center gap-3  hover:bg-gray-100 hover:text-black ${activePage === 'customers' ? 'text-gray-800 bg-white ' : ''}`}
+                    >
+                        <IoPersonOutline /> Customers
+                    </button>
                 </div>
 
                 <div className="mb-6 ">
@@ -137,6 +146,13 @@ const Admin = () => {
                     <>
 
                         <Products />
+                    </>
+                )}
+
+                {activePage === 'customers' && (
+                    <>
+
+                        <Customers />
                     </>
                 )}
             </div>

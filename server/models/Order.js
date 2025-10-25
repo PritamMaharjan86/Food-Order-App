@@ -31,7 +31,7 @@ OrderSchema.pre("save", async function (next) {
         try {
             const datePart = new Date().toISOString().replace(/[-:.TZ]/g, "").slice(0, 8);
             const randomPart = Math.floor(100 + Math.random() * 900);
-            this.orderId = `ORD-${datePart}-${randomPart}`;
+            this.orderId = `#ORD-${datePart}-${randomPart}`;
             next();
         } catch (err) {
             next(err);

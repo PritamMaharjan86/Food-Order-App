@@ -1,4 +1,3 @@
-import React from 'react'
 
 const Orders = ({ orders, handleDelete, handleDelivered }) => {
     return (
@@ -7,12 +6,12 @@ const Orders = ({ orders, handleDelete, handleDelivered }) => {
                 Orders
             </h1>
 
-            <div className="flex flex-row justify-between m-8 p-4 mt-20">
+            <div className="flex flex-row justify-between m-2 mt-20">
                 {orders.length > 0 ? (
                     <table className="min-w-full border border-gray-300 rounded-xl overflow-hidden">
                         <thead className="bg-gray-200 text-left">
                             <tr>
-                                <th className="py-3 px-4 border-b border-gray-300">Order ID</th>
+                                <th className="py-3 px-4 border-b border-gray-300">Order Id</th>
                                 <th className="py-3 px-4 border-b border-gray-300">Customer</th>
                                 <th className="py-3 px-4 border-b border-gray-300">Phone</th>
                                 <th className="py-3 px-4 border-b border-gray-300">Address</th>

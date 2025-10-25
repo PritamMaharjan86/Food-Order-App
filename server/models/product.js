@@ -19,7 +19,7 @@ ProductSchema.pre('save', function (next) {
         try {
             const datePart = new Date().toISOString().replace(/[-:.TZ]/g, "").slice(0, 8);
             const randomPart = Math.floor(100 + Math.random() * 900);
-            this.productId = `PRD-${datePart}-${randomPart}`;
+            this.productId = `#PRD-${datePart}-${randomPart}`;
             next();
         } catch (err) {
             next(err);
