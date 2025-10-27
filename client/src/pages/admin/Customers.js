@@ -43,6 +43,7 @@ const Customers = () => {
                             <th className="py-3 px-4 border-b border-gray-300">Name</th>
                             <th className="py-3 px-4 border-b border-gray-300">Phone</th>
                             <th className="py-3 px-4 border-b border-gray-300">Address</th>
+                            <th className="py-3 px-4 border-b border-gray-300">Last Ordered</th>
                             <th className="py-3 px-4 border-b border-gray-300">Total Orders</th>
                         </tr>
                     </thead>
@@ -59,6 +60,7 @@ const Customers = () => {
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.name}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.phone}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.address}</td>
+                                    <td className="py-2 px-4 border-b border-gray-300 text-left">{item.updatedAt.slice(0, 10)}</td>
                                     <td className="py-2 px-4 border-b border-gray-300 text-left">{totalOrders}</td>
                                 </tr>
                             );
