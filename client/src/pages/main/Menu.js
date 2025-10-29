@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 import { MdShoppingCart, MdAdd } from "react-icons/md";
 import { FiMinus } from "react-icons/fi";
-import Cart from '../components/Cart';
+import Cart from '../../components/Cart';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
-import Loader from '../components/Loader';
-import Banner from '../components/Banner';
+import Loader from '../../components/Loader';
+import Banner from '../../components/Banner';
 
 const Menu = () => {
     const [menu, setMenu] = useState([]);

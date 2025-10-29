@@ -24,11 +24,14 @@ const Customers = () => {
                         unique.push(order);
                     }
                 }
-
                 setUniqueCustomers(unique);
             })
             .catch((err) => console.error('Error fetching order data', err));
     }, []);
+
+
+
+
 
     return (
         <>
@@ -56,13 +59,19 @@ const Customers = () => {
                                 (order) => order.customer.phone === item.customer.phone
                             ).length;
 
+                            const totalCost = menu
+                                .filter(order => order.customer.phone === item.customer.phone) //to filter only the orders with same phone and name of a customer
+                                .reduce((sum, order) => sum + order.items.reduce((s, i) => s + i.price * i.quantity, 0), 0) // go thru each order and add the total cost of all items
+                                .toFixed(2); //to make it in decimal format (40.50)
+
+
                             return (
                                 <tr key={index} className="hover:bg-gray-200 transition-all">
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.name}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.phone}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.address}</td>
                                     <td className="py-2 px-4 border-b border-gray-300 text-left">{item.updatedAt.slice(0, 10)}</td>
-                                    <td className="py-2 px-4 border-b border-gray-300 text-left">${item.updatedAt.slice(0, 10)}</td>
+                                    <td className="py-2 px-4 border-b border-gray-300 text-left">${totalCost}</td>
                                     <td className="py-2 px-4 border-b border-gray-300 text-left">{totalOrders}</td>
                                 </tr>
                             );

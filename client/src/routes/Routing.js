@@ -1,4 +1,4 @@
-import Menu from "../pages/Menu"
+import Menu from "../pages/main/Menu"
 import Admin from "../pages/admin/Admin";
 import Login from "../pages/admin/Login";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
