@@ -116,12 +116,12 @@ const Products = () => {
                                 <td className="py-2 px-4 border-b border-gray-300 ">
                                     <div className='flex flex-row gap-2 '>
                                         <button
-                                            className="bg-red-500 w-1/4 text-gray-200 py-1 rounded-lg px-3"
+                                            className="bg-red-500 w-1/2 text-gray-200 py-1 rounded-lg px-3"
                                             onClick={() => handleDelete(item.productId)}
                                         >
                                             Delete
                                         </button>
-                                        <button className=' bg-blue-500 w-1/4 text-gray-200 py-1 rounded-lg px-3'>Edit</button>
+                                        <button className=' bg-blue-500 w-1/2 text-gray-200 py-1 rounded-lg px-3'>Edit</button>
                                     </div>
                                 </td>
                             </tr>
