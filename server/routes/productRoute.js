@@ -25,6 +25,7 @@ router.post('/postProduct', async (req, res) => {
             name: req.body.name,
             price: req.body.price,
             image: req.body.image,
+            category: req.body.category,
         });
 
         const savedItem = await newItem.save();
