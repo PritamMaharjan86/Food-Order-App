@@ -194,7 +194,7 @@ const Menu = () => {
                             >
                                 <img
                                     src={item.image}
-                                    alt={item.name}
+                                    alt={item.category}
                                     className="w-full h-28 rounded-md shadow-xl object-cover"
                                 />
                                 <p className="text-black font-bold mt-3">{item.name}</p>

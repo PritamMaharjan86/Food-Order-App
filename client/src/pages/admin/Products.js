@@ -8,7 +8,7 @@ const Products = () => {
     const [menu, setMenu] = useState([]);
     const [newItem, setNewItem] = useState({ name: '', price: '', image: '', category: '' });
     const [selected, setSelected] = useState('');
-    const options = ['Rice', 'Spice', 'Meat'];
+    const options = ['Fast food', 'Indian', 'Chinese'];
 
     // Sync dropdown selection with newItem.category
     const handleChange = (e) => {
@@ -119,6 +119,7 @@ const Products = () => {
                     <thead className="bg-gray-200 text-left">
                         <tr>
                             <th className="py-3 px-4 border-b border-gray-300">Product Id</th>
+                            <th className="py-3 px-4 border-b border-gray-300">Avaibility</th>
                             <th className="py-3 px-4 border-b border-gray-300">Name</th>
                             <th className="py-3 px-4 border-b border-gray-300">Price</th>
                             <th className="py-3 px-4 border-b border-gray-300">Image</th>
@@ -132,9 +133,10 @@ const Products = () => {
                             <tr key={item._id} className="hover:bg-gray-200 transition-all">
                                 <td className="py-2 px-4 border-b border-gray-300">{item.productId}</td>
                                 <td className="py-2 px-4 border-b border-gray-300">{item.name}</td>
+                                <td className="py-2 px-4 border-b border-gray-300">{item.name}</td>
                                 <td className="py-2 px-4 border-b border-gray-300">${item.price}</td>
                                 <td className="py-2 px-4 border-b border-gray-300">
-                                    <img src={item.image} className="w-24 rounded-lg h-fit" />
+                                    <img src={item.image} className="w-24 rounded-lg h-fit" alt='product' />
                                 </td>
                                 <td className="py-2 px-4 border-b border-gray-300">{item.category}</td>
                                 <td className="py-2 px-4 border-b border-gray-300">
