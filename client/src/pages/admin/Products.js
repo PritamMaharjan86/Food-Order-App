@@ -57,6 +57,10 @@ const Products = () => {
         }
     };
 
+
+    const handleAvailabilityChange = () => {
+    }
+
     return (
         <>
             <ToastContainer />
@@ -132,7 +136,17 @@ const Products = () => {
                         {menu.map((item) => (
                             <tr key={item._id} className="hover:bg-gray-200 transition-all">
                                 <td className="py-2 px-4 border-b border-gray-300">{item.productId}</td>
-                                <td className="py-2 px-4 border-b border-gray-300">{item.name}</td>
+                                <td className="py-2 px-4 border-b border-gray-300">
+                                    <select
+                                        value={item.availability}
+                                        onChange={(e) => handleAvailabilityChange(item._id, e.target.value)}
+                                        className={`border p-1 rounded-md mt-2 ${item.availability === 'In Stock' ? 'bg-green-200' : 'bg-red-200'
+                                            }`}
+                                    >
+                                        <option value="In Stock">In Stock</option>
+                                        <option value="Out of Stock">Out of Stock</option>
+                                    </select>
+                                </td>
                                 <td className="py-2 px-4 border-b border-gray-300">{item.name}</td>
                                 <td className="py-2 px-4 border-b border-gray-300">${item.price}</td>
                                 <td className="py-2 px-4 border-b border-gray-300">
