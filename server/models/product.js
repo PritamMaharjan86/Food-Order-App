@@ -10,6 +10,10 @@ const ProductSchema = new mongoose.Schema({
     price: Number,
     image: String,
     category: String,
+    avaibility: {
+        type: String,
+        default: 'In Stock',
+    }
 
 });
 

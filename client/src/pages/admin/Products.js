@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Products = () => {
     const [menu, setMenu] = useState([]);
-    const [newItem, setNewItem] = useState({ name: '', price: '', image: '', category: '' });
+    const [newItem, setNewItem] = useState({ name: '', price: '', image: '', category: '', avaibility: '' });
     const [selected, setSelected] = useState('');
     const options = ['Fast food', 'Indian', 'Chinese'];
 
@@ -39,6 +39,7 @@ const Products = () => {
             toast.success('Product added successfully!');
             setNewItem({ name: '', price: '', image: '', category: '' });
             setSelected('');
+
         } catch (err) {
             console.error(err);
             toast.error('Error adding product');
@@ -58,8 +59,30 @@ const Products = () => {
     };
 
 
-    const handleAvailabilityChange = () => {
-    }
+    const handleAvaibility = async (productId, currentStatus) => {
+        try {
+            const newStatus = currentStatus === 'In Stock' ? 'Out of Stock' : 'In Stock';
+
+            await axios.patch(`http://localhost:3001/api/product/updateAvailability/${productId}`, {
+                avaibility: newStatus
+            });
+
+            // ✅ Update the menu array, not newItem
+            setMenu(prev =>
+                prev.map(product =>
+                    product.productId === productId
+                        ? { ...product, avaibility: newStatus }
+                        : product
+                )
+            );
+
+            toast.success(`Product marked as: '${newStatus}'`);
+        } catch (error) {
+            console.error('Error updating product availability:', error);
+            toast.error('Failed to update availability');
+        }
+    };
+
 
     return (
         <>
@@ -136,8 +159,7 @@ const Products = () => {
                         {menu.map((item) => (
                             <tr key={item._id} className="hover:bg-gray-200 transition-all">
                                 <td className="py-2 px-4 border-b border-gray-300">{item.productId}</td>
-                                <td className="py-2 px-4 border-b border-gray-300">
-                                </td>
+                                <td className={`py-2 px-4 border-b border-gray-300 ${item.avaibility === 'In Stock' ? 'text-green-500' : 'text-yellow-500'}`}>{item.avaibility}</td>
                                 <td className="py-2 px-4 border-b border-gray-300">{item.name}</td>
                                 <td className="py-2 px-4 border-b border-gray-300">${item.price}</td>
                                 <td className="py-2 px-4 border-b border-gray-300">
@@ -152,16 +174,25 @@ const Products = () => {
                                         >
                                             Delete
                                         </button>
+
                                         <button className="bg-blue-500 w-1/2 text-gray-200 py-1 rounded-lg px-3">
                                             Edit
                                         </button>
+
+
+                                        {item.avaibility === 'In Stock' ?
+                                            <button className="bg-yellow-500 w-1/2 text-gray-200 py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
+                                                Out of Stock
+                                            </button> : <button className="bg-green-500 w-1/2 text-gray-200 py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
+                                                In Stock
+                                            </button>}
                                     </div>
                                 </td>
                             </tr>
                         ))}
-                </tbody>
-            </table>
-        </div >
+                    </tbody>
+                </table>
+            </div >
         </>
     );
 };

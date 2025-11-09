@@ -14,7 +14,7 @@ router.post('/postOrder', async (req, res) => {
         const newOrder = new order({ items, customer });
         await newOrder.save();
 
-        console.log('Received Order:', newOrder);
+        console.log('ORDER RECIEVED:', newOrder);
         res.status(201).json({
             message: 'Order received successfully!',
             order: newOrder
