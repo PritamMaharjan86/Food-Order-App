@@ -197,47 +197,62 @@ const Menu = () => {
                                     alt={item.category}
                                     className="w-full h-28 rounded-md shadow-xl object-cover"
                                 />
+
                                 <p className="text-black font-bold mt-3">{item.name}</p>
                                 <p className="text-black mt-5">${item.price}</p>
 
-                                {clicked.includes(item.productId) ? (
-                                    // Counter UI
-                                    <div className="flex justify-evenly items-center gap-5 h-12 flex-row rounded-md mt-2 bg-primaryGreen shadow-lg shadow-green-800">
-                                        <button
-                                            className="text-white text-lg flex items-center ml-5"
-                                            onClick={() => handleAdd(item.productId)}
-                                        >
-                                            <MdAdd />
-                                        </button>
-                                        <span className="bg-sand w-12 h-10 flex justify-center items-center rounded-md text-sm">
-                                            {cart.find((ci) => ci.productId === item.productId)?.quantity || 1}
-                                        </span>
-                                        <button
-                                            className="text-white text-lg flex items-center mr-5"
-                                            onClick={() => handleRemove(item.productId)}
-                                        >
-                                            <FiMinus />
-                                        </button>
-                                    </div>
-                                ) : (
-                                    // Add to Cart Button
-                                    <button
-                                        onClick={() => handleCart(item)}
-                                        className="h-12 hover:bg-green-700 mt-2 shadow-lg shadow-green-900 bg-primaryGreen text-white p-2 rounded-md justify-center flex items-center"
-                                    >
-                                        {loading === item.productId ? (
-                                            <Loader className="w-2 h-2 border-2 border-cream border-t-transparent rounded-full animate-spin" />
-                                        ) : (
-                                            "Add to cart"
-                                        )}
-                                    </button>
-                                )}
+                                {
+                                    clicked.includes(item.productId) ? (
+                                        // Counter UI
+                                        <div className="flex justify-evenly items-center gap-5 h-12 flex-row rounded-md mt-2 bg-primaryGreen shadow-lg shadow-green-800">
+                                            <button
+                                                className="text-white text-lg flex items-center ml-5"
+                                                onClick={() => handleAdd(item.productId)}
+                                            >
+                                                <MdAdd />
+                                            </button>
+                                            <span className="bg-sand w-12 h-10 flex justify-center items-center rounded-md text-sm">
+                                                {cart.find((ci) => ci.productId === item.productId)?.quantity || 1}
+                                            </span>
+                                            <button
+                                                className="text-white text-lg flex items-center mr-5"
+                                                onClick={() => handleRemove(item.productId)}
+                                            >
+                                                <FiMinus />
+                                            </button>
+                                        </div>
+                                    ) : (
+
+                                        (item.avaibility === 'In Stock') ? (
+
+
+                                            // Add to Cart Button
+                                            < button
+                                                onClick={() => handleCart(item)}
+                                                className="h-12 hover:bg-green-700 mt-2 shadow-lg shadow-green-900 bg-primaryGreen text-white p-2 rounded-md justify-center flex items-center"
+                                            >
+                                                {loading === item.productId ? (
+                                                    <Loader className="w-2 h-2 border-2 border-cream border-t-transparent rounded-full animate-spin" />
+                                                ) : (
+                                                    "Add to cart"
+                                                )}
+                                            </button>) : (
+                                            <button
+                                                disabled
+                                                className="h-12 bg-gray-400 mt-2 shadow-lg shadow-gray-600 text-white p-2 rounded-md justify-center flex items-center cursor-not-allowed"
+                                            >
+                                                Out of Stock
+                                            </button>
+                                        )
+
+                                    )
+                                }
                             </li>
                         ))}
                     </ul>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
