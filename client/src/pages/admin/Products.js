@@ -220,7 +220,7 @@ const Products = () => {
                                         </td>
 
                                         <td className="py-2 px-4 border-b border-gray-300">
-                                            <div className="flex gap-2">
+                                            <div className="flex gap-2 flex-col">
                                                 <button
                                                     className="bg-green-500 text-white py-1 px-3 rounded-lg"
                                                     onClick={() => handleSaveEdit(item.productId)}
@@ -247,16 +247,16 @@ const Products = () => {
                                         </td>
                                         <td className="py-2 px-4 border-b border-gray-300">{item.category}</td>
                                         <td className="py-2 px-4 border-b border-gray-300">
-                                            <div className="flex flex-row gap-2">
+                                            <div className="flex flex-col gap-2 ">
                                                 <button
-                                                    className="bg-red-500 w-1/2 text-gray-200 py-1 rounded-lg px-3"
+                                                    className="bg-red-500  text-white py-1 rounded-lg px-3"
                                                     onClick={() => handleDelete(item.productId)}
                                                 >
                                                     Delete
                                                 </button>
 
                                                 <button
-                                                    className="bg-blue-500 w-1/2 text-gray-200 py-1 rounded-lg px-3"
+                                                    className="bg-blue-500  text-white py-1 rounded-lg px-3"
                                                     onClick={() => {
                                                         setEditingItem(item.productId);
                                                         setEditedData({
@@ -271,10 +271,10 @@ const Products = () => {
                                                 </button>
 
                                                 {item.avaibility === 'In Stock' ?
-                                                    <button className="bg-yellow-500 w-1/2 text-gray-200 py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
+                                                    <button className="bg-yellow-400  text-white py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
                                                         Out of Stock
                                                     </button> :
-                                                    <button className="bg-green-500 w-1/2 text-gray-200 py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
+                                                    <button className="bg-green-500  text-white py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
                                                         In Stock
                                                     </button>}
                                             </div>
