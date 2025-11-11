@@ -8,6 +8,8 @@ const Products = () => {
     const [menu, setMenu] = useState([]);
     const [newItem, setNewItem] = useState({ name: '', price: '', image: '', category: '', avaibility: '' });
     const [selected, setSelected] = useState('');
+    const [editingItem, setEditingItem] = useState(null);
+    const [editedData, setEditedData] = useState({ name: '', price: '', image: '', category: '' });
     const options = ['Fast food', 'Indian', 'Chinese'];
 
     // Sync dropdown selection with newItem.category
@@ -33,13 +35,12 @@ const Products = () => {
         try {
             const res = await axios.post('http://localhost:3001/api/product/postProduct', {
                 ...newItem,
-                price: Number(newItem.price) // ensure price is a number
+                price: Number(newItem.price)
             });
             setMenu([...menu, res.data]);
             toast.success('Product added successfully!');
             setNewItem({ name: '', price: '', image: '', category: '' });
             setSelected('');
-
         } catch (err) {
             console.error(err);
             toast.error('Error adding product');
@@ -58,16 +59,13 @@ const Products = () => {
         }
     };
 
-
+    // Update availability
     const handleAvaibility = async (productId, currentStatus) => {
         try {
             const newStatus = currentStatus === 'In Stock' ? 'Out of Stock' : 'In Stock';
-
             await axios.patch(`http://localhost:3001/api/product/updateAvailability/${productId}`, {
                 avaibility: newStatus
             });
-
-            // ✅ Update the menu array, not newItem
             setMenu(prev =>
                 prev.map(product =>
                     product.productId === productId
@@ -75,7 +73,6 @@ const Products = () => {
                         : product
                 )
             );
-
             toast.success(`Product marked as: '${newStatus}'`);
         } catch (error) {
             console.error('Error updating product availability:', error);
@@ -83,6 +80,27 @@ const Products = () => {
         }
     };
 
+    // Save edits
+    const handleSaveEdit = async (productId) => {
+        try {
+            const res = await axios.patch(`http://localhost:3001/api/product/updateProduct/${productId}`, {
+                ...editedData,
+                price: Number(editedData.price)
+            });
+
+            setMenu(prev =>
+                prev.map(item =>
+                    item.productId === productId ? { ...item, ...editedData } : item
+                )
+            );
+
+            toast.success('Product updated successfully!');
+            setEditingItem(null);
+        } catch (err) {
+            console.error('Error updating product:', err);
+            toast.error('Failed to update product');
+        }
+    };
 
     return (
         <>
@@ -91,6 +109,7 @@ const Products = () => {
                 Products
             </h1>
 
+            {/* Add Product Section */}
             <div className="bg-gray-200 rounded-lg shadow-md mt-20 p-4 ml-14 mr-14">
                 <h2 className="text-xl font-semibold mb-3">Add New Product</h2>
                 <div className="flex flex-col gap-2 md:flex-row">
@@ -141,12 +160,13 @@ const Products = () => {
                 </div>
             </div >
 
+            {/* Product Table */}
             <div className="flex flex-row justify-between p-4">
                 <table className="text-black min-w-full border border-gray-300 rounded-xl overflow-hidden">
                     <thead className="bg-gray-200 text-left">
                         <tr>
                             <th className="py-3 px-4 border-b border-gray-300">Product Id</th>
-                            <th className="py-3 px-4 border-b border-gray-300">Avaibility</th>
+                            <th className="py-3 px-4 border-b border-gray-300">Availability</th>
                             <th className="py-3 px-4 border-b border-gray-300">Name</th>
                             <th className="py-3 px-4 border-b border-gray-300">Price</th>
                             <th className="py-3 px-4 border-b border-gray-300">Image</th>
@@ -158,36 +178,109 @@ const Products = () => {
                     <tbody className="text-black">
                         {menu.map((item) => (
                             <tr key={item._id} className="hover:bg-gray-200 transition-all">
-                                <td className="py-2 px-4 border-b border-gray-300">{item.productId}</td>
-                                <td className={`py-2 px-4 border-b border-gray-300 ${item.avaibility === 'In Stock' ? 'text-green-500' : 'text-yellow-500'}`}>{item.avaibility}</td>
-                                <td className="py-2 px-4 border-b border-gray-300">{item.name}</td>
-                                <td className="py-2 px-4 border-b border-gray-300">${item.price}</td>
-                                <td className="py-2 px-4 border-b border-gray-300">
-                                    <img src={item.image} className="w-24 rounded-lg h-fit" alt='product' />
-                                </td>
-                                <td className="py-2 px-4 border-b border-gray-300">{item.category}</td>
-                                <td className="py-2 px-4 border-b border-gray-300">
-                                    <div className="flex flex-row gap-2">
-                                        <button
-                                            className="bg-red-500 w-1/2 text-gray-200 py-1 rounded-lg px-3"
-                                            onClick={() => handleDelete(item.productId)}
-                                        >
-                                            Delete
-                                        </button>
+                                {editingItem === item.productId ? (
+                                    <>
+                                        <td className="py-2 px-4 border-b border-gray-300">{item.productId}</td>
+                                        <td className="py-2 px-4 border-b border-gray-300">{item.avaibility}</td>
 
-                                        <button className="bg-blue-500 w-1/2 text-gray-200 py-1 rounded-lg px-3">
-                                            Edit
-                                        </button>
+                                        <td className="py-2 px-4 border-b border-gray-300">
+                                            <input
+                                                type="text"
+                                                value={editedData.name}
+                                                onChange={(e) => setEditedData({ ...editedData, name: e.target.value })}
+                                                className="border p-1 rounded-md"
+                                            />
+                                        </td>
 
+                                        <td className="py-2 px-4 border-b border-gray-300">
+                                            <input
+                                                type="number"
+                                                value={editedData.price}
+                                                onChange={(e) => setEditedData({ ...editedData, price: e.target.value })}
+                                                className="border p-1 rounded-md"
+                                            />
+                                        </td>
 
-                                        {item.avaibility === 'In Stock' ?
-                                            <button className="bg-yellow-500 w-1/2 text-gray-200 py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
-                                                Out of Stock
-                                            </button> : <button className="bg-green-500 w-1/2 text-gray-200 py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
-                                                In Stock
-                                            </button>}
-                                    </div>
-                                </td>
+                                        <td className="py-2 px-4 border-b border-gray-300">
+                                            <input
+                                                type="text"
+                                                value={editedData.image}
+                                                onChange={(e) => setEditedData({ ...editedData, image: e.target.value })}
+                                                className="border p-1 rounded-md w-40"
+                                            />
+                                        </td>
+
+                                        <td className="py-2 px-4 border-b border-gray-300">
+                                            <input
+                                                type="text"
+                                                value={editedData.category}
+                                                onChange={(e) => setEditedData({ ...editedData, category: e.target.value })}
+                                                className="border p-1 rounded-md"
+                                            />
+                                        </td>
+
+                                        <td className="py-2 px-4 border-b border-gray-300">
+                                            <div className="flex gap-2">
+                                                <button
+                                                    className="bg-green-500 text-white py-1 px-3 rounded-lg"
+                                                    onClick={() => handleSaveEdit(item.productId)}
+                                                >
+                                                    Save
+                                                </button>
+                                                <button
+                                                    className="bg-gray-400 text-white py-1 px-3 rounded-lg"
+                                                    onClick={() => setEditingItem(null)}
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </>
+                                ) : (
+                                    <>
+                                        <td className="py-2 px-4 border-b border-gray-300">{item.productId}</td>
+                                        <td className={`py-2 px-4 border-b border-gray-300 ${item.avaibility === 'In Stock' ? 'text-green-500' : 'text-yellow-500'}`}>{item.avaibility}</td>
+                                        <td className="py-2 px-4 border-b border-gray-300">{item.name}</td>
+                                        <td className="py-2 px-4 border-b border-gray-300">${item.price}</td>
+                                        <td className="py-2 px-4 border-b border-gray-300">
+                                            <img src={item.image} className="w-24 rounded-lg h-fit" alt='product' />
+                                        </td>
+                                        <td className="py-2 px-4 border-b border-gray-300">{item.category}</td>
+                                        <td className="py-2 px-4 border-b border-gray-300">
+                                            <div className="flex flex-row gap-2">
+                                                <button
+                                                    className="bg-red-500 w-1/2 text-gray-200 py-1 rounded-lg px-3"
+                                                    onClick={() => handleDelete(item.productId)}
+                                                >
+                                                    Delete
+                                                </button>
+
+                                                <button
+                                                    className="bg-blue-500 w-1/2 text-gray-200 py-1 rounded-lg px-3"
+                                                    onClick={() => {
+                                                        setEditingItem(item.productId);
+                                                        setEditedData({
+                                                            name: item.name,
+                                                            price: item.price,
+                                                            image: item.image,
+                                                            category: item.category
+                                                        });
+                                                    }}
+                                                >
+                                                    Edit
+                                                </button>
+
+                                                {item.avaibility === 'In Stock' ?
+                                                    <button className="bg-yellow-500 w-1/2 text-gray-200 py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
+                                                        Out of Stock
+                                                    </button> :
+                                                    <button className="bg-green-500 w-1/2 text-gray-200 py-1 rounded-lg px-3" onClick={() => handleAvaibility(item.productId, item.avaibility)}>
+                                                        In Stock
+                                                    </button>}
+                                            </div>
+                                        </td>
+                                    </>
+                                )}
                             </tr>
                         ))}
                     </tbody>

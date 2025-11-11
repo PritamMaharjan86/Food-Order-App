@@ -77,5 +77,19 @@ router.patch('/updateAvailability/:productId', async (req, res) => {
     }
 });
 
+router.patch('/updateProduct/:productId', async (req, res) => {
+    try {
+        const updated = await Product.findOneAndUpdate(
+            { productId: req.params.productId },
+            req.body,
+            { new: true }
+        );
+        res.json(updated);
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to update product' });
+    }
+});
+
+
 
 module.exports = router;
