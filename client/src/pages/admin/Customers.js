@@ -43,6 +43,7 @@ const Customers = () => {
                 <table className="text-black min-w-full border border-gray-300 rounded-xl overflow-hidden">
                     <thead className="bg-gray-200 text-left">
                         <tr>
+                            <th className="py-3 px-4 border-b border-gray-300">Customer ID</th>
                             <th className="py-3 px-4 border-b border-gray-300">Name</th>
                             <th className="py-3 px-4 border-b border-gray-300">Phone</th>
                             <th className="py-3 px-4 border-b border-gray-300">Address</th>
@@ -67,6 +68,7 @@ const Customers = () => {
 
                             return (
                                 <tr key={index} className="hover:bg-gray-200 transition-all">
+                                    <td className="py-2 px-4 border-b border-gray-300">{item.customer.name}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.name}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.phone}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.address}</td>
