@@ -27,20 +27,33 @@ const OrderSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
+// Pre-save middleware to generate orderId & customerId
 OrderSchema.pre("save", async function (next) {
-    if (!this.orderId) {
-        try {
+    try {
+        // Generate orderId if not exists
+        if (!this.orderId) {
             const datePart = new Date().toISOString().replace(/[-:.TZ]/g, "").slice(0, 8);
             const randomPart = Math.floor(100 + Math.random() * 900);
-            this.orderId = `#ORD-${datePart}-${randomPart}`;
-            next();
-        } catch (err) {
-            next(err);
+            this.orderId = `ORD-${datePart}-${randomPart}`;
         }
-    } else {
+
+        // Generate customerId if not exists
+        if (!this.customer.customerId) {
+            const datePart = new Date().toISOString().replace(/[-:.TZ]/g, "").slice(0, 8);
+            const randomPart = Math.floor(1000 + Math.random() * 9000); // 4-digit random
+            this.customer.customerId = `CUST-${datePart}-${randomPart}`;
+        }
+
         next();
+    } catch (err) {
+        next(err);
     }
 });
+
+
+
+
+
 
 
 module.exports = mongoose.model('Order', OrderSchema);

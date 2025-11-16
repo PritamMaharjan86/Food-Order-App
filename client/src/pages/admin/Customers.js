@@ -68,7 +68,7 @@ const Customers = () => {
 
                             return (
                                 <tr key={index} className="hover:bg-gray-200 transition-all">
-                                    <td className="py-2 px-4 border-b border-gray-300">{item.customer.name}</td>
+                                    <td className="py-2 px-4 border-b border-gray-300">{item.customer.customerId}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.name}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.phone}</td>
                                     <td className="py-2 px-4 border-b border-gray-300">{item.customer.address}</td>
